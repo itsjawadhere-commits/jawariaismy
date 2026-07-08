@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 March | Jawaria</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #030303; 
+            --text-color: #f5f5f5;
+            --accent-gold: #cfaa6e;
+            --serif-font: 'Cormorant Garamond', serif;
+            --mono-font: 'Space Mono', monospace;
+        }
+        
+        /* TIME CAPSULE */
+.time-capsule-container {
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 4rem 2rem;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(5px);
+    transition: 0.5s ease;
+}
+.time-capsule-container.unlocked {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 30px rgba(207, 170, 110, 0.1);
+}
+#unlock-btn {
+    margin-top: 2rem; background: transparent; border: 1px solid var(--accent-gold);
+    color: var(--accent-gold); padding: 10px 30px; font-family: var(--mono-font);
+    font-size: 0.8rem; letter-spacing: 0.1em; cursor: none; border-radius: 30px; transition: 0.3s;
+}
+#unlock-btn:hover { background: var(--accent-gold); color: var(--bg-color); }
+        
+        .polaroid-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+}
+.polaroid {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(207, 170, 110, 0.2);
+    padding: 15px 15px 40px 15px;
+    width: 220px;
+    transition: 0.4s ease;
+    cursor: none;
+}
+.polaroid:hover {
+    transform: translateY(-10px) rotate(0deg) !important;
+    border-color: var(--accent-gold);
+    box-shadow: 0 10px 30px rgba(207, 170, 110, 0.1);
+}
+.polaroid-blank {
+    width: 100%;
+    height: 200px;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.02) 10px,
+        rgba(0,0,0,0) 10px,
+        rgba(0,0,0,0) 20px
+    );
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; cursor: pointer;
+    transition: border-color 0.3s;
+}
+.polaroid-blank:hover { border-color: rgba(207,170,110,0.4); }
+.polaroid-hint {
+    font-family: var(--mono-font); font-size: 0.65rem;
+    color: var(--accent-gold); opacity: 0.4; letter-spacing: 0.08em;
+    transition: opacity 0.3s;
+}
+.polaroid-blank:hover .polaroid-hint { opacity: 0.7; }
+.polaroid-img { position: absolute; inset: 0; }
+.polaroid .caption {
+    font-size: 1rem;
+    color: var(--accent-gold);
+    opacity: 0.8;
+}
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; scrollbar-width: none; }
+        body::-webkit-scrollbar { display: none; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--serif-font);
+            line-height: 1.6;
+            overflow: hidden;
+            cursor: none; /* Hide default cursor */
+        }
+        
+        .urdu {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    direction: rtl;
+    text-align: right;
+    white-space: pre-line;
+    line-height: 2.1;
+    font-size: 1.1rem;
+    opacity: 0.95;
+}
+
+        /* CUSTOM AUDIO PLAYER */
+        .audio-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 300px;
+            margin: 2rem auto;
+        }
+        #play-pause-btn {
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 10px 30px;
+            font-family: var(--mono-font);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            cursor: none; /* Keeps your custom cursor */
+            border-radius: 30px;
+            transition: 0.3s;
+            outline: none;
+        }
+        #play-pause-btn:hover {
+            background: var(--accent-gold);
+            color: var(--bg-color);
+        }
+        .audio-track {
+            width: 100%;
+            height: 1px;
+            background: rgba(207, 170, 110, 0.2);
+            position: relative;
+        }
+        .audio-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-gold);
+            box-shadow: 0 0 8px var(--accent-gold);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            transition: width 0.1s linear;
+        }
+        #audio-time {
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            opacity: 0.7;
+        }
+        
+        /* MAP ANIMATION */
+        .map-line {
+            stroke-dashoffset: 100;
+            animation: drawLine 20s linear infinite;
+        }
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* TYPEWRITER CURSOR BLINK */
+        #letter-cursor.typing { opacity: 1; animation: none; }
+        #letter-cursor.done { animation: blink 1s step-end infinite; }
+        
+        /* CUSTOM CURSOR */
+        #custom-cursor {
+            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+            background: var(--accent-gold); border-radius: 50%;
+            pointer-events: none; z-index: 99999;
+            box-shadow: 0 0 12px 2px rgba(207, 170, 110, 0.6);
+            transform: translate3d(-50%, -50%, 0);
+            transition: width 0.2s, height 0.2s;
+            will-change: transform;
+        }
+
+        /* BACKGROUND LAYERS */
+        #starfield { display: none; }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Stop_Frame_Grain.png");
+            animation: noise 0.2s infinite;
+        }
+        @keyframes noise {
+            0%, 100% { transform: translate(0,0); }
+            10% { transform: translate(-1%,-1%); }
+            30% { transform: translate(1%,1%); }
+            50% { transform: translate(-0.5%,1.5%); }
+            70% { transform: translate(1.5%,0.5%); }
+        }
+
+        #scroll-thread {
+            position: fixed; left: 30px; top: 0;
+            width: 1px; height: 0%;
+            background: linear-gradient(to bottom, transparent, var(--accent-gold));
+            z-index: 999; transition: height 0.1s linear;
+        }
+
+        /* PRELOADER */
+        /* CONTENT STYLING */
+
+        /* Text selection palette match */
+        ::selection { background: var(--accent-gold); color: var(--bg-color); }
+
+        /* Envelope glow on open */
+        @keyframes envelopeGlow {
+            0%   { box-shadow: none; }
+            40%  { box-shadow: 0 0 40px 6px rgba(207,170,110,0.25); }
+            100% { box-shadow: 0 0 18px 2px rgba(207,170,110,0.08); }
+        }
+        .envelope-wrap.open .envelope-body { animation: envelopeGlow 2.4s ease forwards; }
+        #main-content { opacity: 0; transition: opacity 1.2s ease; position: relative; z-index: 10; }
+        .content-visible { opacity: 1 !important; }
+        
+        .section-padding {
+            min-height: 100vh; padding: 10vh 10%; display: flex;
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        
+        .mono { font-family: var(--mono-font); text-transform: lowercase; letter-spacing: 0.05em; font-size: 0.8rem; opacity: 0.6; }
+        .serif { font-family: var(--serif-font); font-style: italic; }
+        
+        .greeting-text { margin-bottom: 1rem; color: var(--accent-gold); }
+        
+        h1.name { 
+            font-size: clamp(3.5rem, 12vw, 8rem); 
+            font-weight: 300; 
+            margin-bottom: 1rem; 
+            animation: pulse 4s ease-in-out infinite;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        @keyframes pulse { 50% { opacity: 0.85; } }
+        #countdown { font-size: 1.5rem; color: var(--accent-gold); margin: 2rem 0; }
+
+        /* TIMELINE */
+        .timeline-container { position: relative; max-width: 500px; width: 100%; text-align: left; margin-top: 3rem; }
+        .timeline-line { position: absolute; left: 10px; top: 0; bottom: 0; width: 1px; background: rgba(207, 170, 110, 0.2); }
+        .timeline-entry { margin-bottom: 4rem; padding-left: 40px; opacity: 0; transform: translateY(30px); transition: 1.2s ease; }
+        .timeline-entry.visible { opacity: 1; transform: translateY(0); }
+        .dot { position: absolute; left: 6px; width: 9px; height: 9px; background: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 10px var(--accent-gold); }
+
+        /* MOON PHASE (OCT 6, 2025 - Waxing Gibbous) */
+        .moon-graphic {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: var(--text-color);
+            /* A sliver of shadow on the left to indicate it's one day before full */
+            box-shadow: inset 8px 0px 0 0 rgba(0,0,0,0.8);
+            filter: drop-shadow(0 0 25px rgba(245, 245, 245, 0.3));
+            margin: 0 auto 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float { 50% { transform: translateY(-12px); } }
+
+        /* TRAITS */
+        .trait-item { font-size: clamp(1.5rem, 4vw, 2.5rem); margin: 20vh 0; filter: blur(15px); opacity: 0.05; transition: 1s ease; }
+        .trait-item.in-focus { filter: blur(0); opacity: 1; }
+
+        /* REASON GENERATOR */
+        .generator-container { min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #reason-text { font-size: clamp(1.2rem, 3vw, 2rem); margin: 2rem 0; transition: opacity 0.8s ease; min-height: 80px; max-width: 600px;}
+        #generate-btn {
+            background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold);
+            padding: 10px 20px; font-family: var(--mono-font); font-size: 0.7rem; cursor: none;
+            letter-spacing: 0.1em; transition: 0.3s; border-radius: 30px;
+        }
+        #generate-btn:hover { background: var(--accent-gold); color: var(--bg-color); }
+
+        /* HOLD INTERACTION */
+        .hold-container { margin: 2rem 0; width: 250px; }
+        #hold-btn { 
+            background: none; border: none; color: var(--text-color); 
+            cursor: none; padding: 1rem; outline: none; 
+            font-size: 1.2rem; letter-spacing: 0.05em;
+        }
+        .progress-track { width: 0%; height: 1px; background: var(--accent-gold); margin-top: 5px; box-shadow: 0 0 8px var(--accent-gold); }
+        .hidden-content { opacity: 0; visibility: hidden; transition: 1.5s ease; margin-top: 2rem; }
+        .revealed { opacity: 1; visibility: visible; }
+        .completed { display: none; }
+
+        /* PARALLEL */
+        .orbit { width: 140px; height: 140px; border: 1px solid rgba(255,255,255,0.05); border-radius: 50%; position: relative; animation: rotate 20s linear infinite; margin-bottom: 2rem; }
+        .planet { width: 6px; height: 6px; background: var(--text-color); border-radius: 50%; position: absolute; top: -3px; left: 50%; box-shadow: 0 0 10px #fff; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* BIRTHDAY GATE */
+        #birthday-content { transition: 3s ease; }
+
+        footer { opacity: 0.3; padding: 5rem 0; font-size: 0.8rem; letter-spacing: 0.1em; }
+
+        /* PROMISE JAR */
+        .jar-wrap { position: relative; width: 120px; height: 150px; margin: 2rem auto; cursor: none; }
+        .jar-body { width: 100%; height: 100%; border: 1px solid rgba(207,170,110,0.4); border-radius: 10px 10px 20px 20px; background: rgba(207,170,110,0.04); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .jar-lid { width: 80px; height: 18px; background: transparent; border: 1px solid rgba(207,170,110,0.4); border-radius: 6px 6px 0 0; margin: 0 auto; }
+        .jar-slip { font-family: var(--serif-font); font-style: italic; font-size: 0.75rem; color: var(--accent-gold); text-align: center; padding: 0 10px; opacity: 0; transition: opacity 0.6s ease; line-height: 1.5; }
+        .jar-slip.show { opacity: 1; }
+        .jar-glow { position: absolute; inset: 0; background: radial-gradient(circle, rgba(207,170,110,0.08) 0%, transparent 70%); opacity: 0; transition: opacity 0.4s; }
+        .jar-wrap:hover .jar-glow { opacity: 1; }
+        #promise-btn { background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 8px 24px; font-family: var(--mono-font); font-size: 0.75rem; letter-spacing: 0.1em; cursor: none; border-radius: 30px; transition: 0.3s; margin-top: 1.5rem; }
+        #promise-btn:hover { background: var(--accent-gold); color: var(--bg-color); }
+
+        /* FUTURE MEMORY / SEALED ENVELOPE */
+        .envelope-wrap { position: relative; width: min(560px, 90vw); margin: 2rem auto; cursor: none; }
+        .envelope-body { width: 100%; border: 1px solid rgba(207,170,110,0.3); background: rgba(207,170,110,0.03); position: relative; display: flex; align-items: center; justify-content: center; transition: 0.5s ease; min-height: 180px; }
+        .envelope-flap { position: absolute; top: 0; left: 0; width: 100%; height: 90px; clip-path: polygon(0 0, 50% 100%, 100% 0); background: rgba(207,170,110,0.06); border-bottom: 1px solid rgba(207,170,110,0.2); transition: 0.6s ease; transform-origin: top; pointer-events: none; }
+        .envelope-wrap.open .envelope-flap { transform: rotateX(180deg); }
+        .envelope-seal { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--accent-gold); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: var(--accent-gold); font-family: var(--mono-font); transition: 0.4s; z-index: 2; }
+        .envelope-wrap.open .envelope-seal { opacity: 0; pointer-events: none; }
+        .envelope-letter {
+            opacity: 0; transition: opacity 0.8s ease 0.4s;
+            font-family: var(--serif-font); font-style: italic;
+            font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+            color: var(--text-color); line-height: 1.9;
+            text-align: left; padding: 2.5rem 2rem 2rem;
+            width: 100%; box-sizing: border-box;
+            display: none;
+        }
+        .envelope-wrap.open .envelope-letter { opacity: 1; display: block; }
+        #envelope-label { font-size: 0.7rem; color: var(--accent-gold); opacity: 0.6; margin-top: 0.5rem; }
+        #open-envelope-btn { background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 8px 24px; font-family: var(--mono-font); font-size: 0.75rem; letter-spacing: 0.1em; cursor: none; border-radius: 30px; transition: 0.3s; margin-top: 1.5rem; }
+        #open-envelope-btn:hover { background: var(--accent-gold); color: var(--bg-color); }
+        #open-envelope-btn.hidden { opacity: 0; pointer-events: none; }
+
+        /* MOOD CHECK-IN */
+        .mood-grid { display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center; max-width: 500px; margin: 2rem 0; }
+        .mood-btn { background: transparent; border: 1px solid rgba(207,170,110,0.25); color: var(--text-color); padding: 12px 18px; font-family: var(--mono-font); font-size: 0.7rem; letter-spacing: 0.08em; cursor: none; border-radius: 30px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .mood-btn span:first-child { font-size: 1.4rem; }
+        .mood-btn:hover, .mood-btn.active { border-color: var(--accent-gold); background: rgba(207,170,110,0.06); }
+        #mood-response { max-width: 520px; font-family: var(--serif-font); font-style: italic; font-size: 1.3rem; line-height: 1.8; opacity: 0; transition: opacity 0.8s ease; min-height: 80px; text-align: center; color: var(--text-color); }
+        #mood-response.show { opacity: 1; }
+
+        /* TWO CITIES MAP */
+        .map-svg-wrap { width: 100%; max-width: 500px; margin: 2rem auto; position: relative; }
+        .map-svg-wrap svg { width: 100%; height: auto; }
+        .city-dot { fill: var(--accent-gold); filter: drop-shadow(0 0 6px rgba(207,170,110,0.8)); }
+        .city-label { fill: var(--accent-gold); font-family: var(--mono-font); font-size: 11px; letter-spacing: 0.08em; }
+        .city-sublabel { fill: rgba(245,245,245,0.4); font-family: var(--mono-font); font-size: 9px; }
+        .connect-path { fill: none; stroke: var(--accent-gold); stroke-width: 1; stroke-dasharray: 4 4; opacity: 0.5; animation: dashMove 3s linear infinite; }
+        @keyframes dashMove { to { stroke-dashoffset: -40; } }
+        .distance-badge { fill: none; }
+        .distance-text { fill: rgba(207,170,110,0.6); font-family: var(--mono-font); font-size: 9px; }
+        .map-border { fill: none; stroke: rgba(207,170,110,0.08); stroke-width: 1; }
+        .pulse-ring { fill: none; stroke: var(--accent-gold); stroke-width: 1; opacity: 0; transform-origin: center; }
+        .pulse-ring.r1 { animation: pulseRing 2.5s ease-out infinite; }
+        .pulse-ring.r2 { animation: pulseRing 2.5s ease-out 1.2s infinite; }
+        @keyframes pulseRing { 0% { r: 5; opacity: 0.6; } 100% { r: 18; opacity: 0; } }
+
+        /* CONSTELLATION */
+        .constellation-wrap { position: relative; width: 100%; max-width: 420px; height: 340px; margin: 2rem auto; cursor: none; }
+        #constellation-canvas { width: 100%; height: 100%; }
+        #constellation-msg { font-family: var(--serif-font); font-style: italic; font-size: 1.1rem; color: var(--accent-gold); opacity: 0; transition: opacity 1s ease; text-align: center; margin-top: 1rem; min-height: 40px; }
+        #constellation-msg.show { opacity: 1; }
+        #constellation-reset { background: transparent; border: none; color: rgba(207,170,110,0.4); font-family: var(--mono-font); font-size: 0.65rem; cursor: none; letter-spacing: 0.1em; margin-top: 0.5rem; transition: 0.3s; }
+        #constellation-reset:hover { color: var(--accent-gold); }
+
+        /* SCATTERED NOTES */
+        .scattered-section {
+            min-height: 100vh;
+            padding: 8vh 5%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .scattered-field {
+            position: relative;
+            width: 100%;
+            max-width: 860px;
+            min-height: 900px;
+        }
+        .note {
+            position: absolute;
+            font-family: var(--serif-font);
+            font-style: italic;
+            font-size: clamp(0.8rem, 1.4vw, 1.05rem);
+            color: var(--text-color);
+            opacity: 0;
+            line-height: 1.5;
+            max-width: 200px;
+            padding: 4px 2px;
+            border-bottom: 1px solid rgba(207,170,110,0.2);
+            transition: opacity 0.6s ease, color 0.3s, border-color 0.3s;
+            cursor: default;
+        }
+        .note.visible { opacity: 0.55; }
+        .note:hover { opacity: 1 !important; color: var(--accent-gold); border-color: var(--accent-gold); }
+
+        /* SCRATCH CARD */
+        .scratch-wrap { position: relative; width: 280px; height: 160px; margin: 2rem auto; border-radius: 12px; overflow: hidden; cursor: none; }
+        #scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; }
+        .scratch-reveal { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(207,170,110,0.05); border: 1px solid rgba(207,170,110,0.2); border-radius: 12px; padding: 1.5rem; }
+        .scratch-reveal p { font-family: var(--serif-font); font-style: italic; font-size: 1.1rem; text-align: center; color: var(--accent-gold); line-height: 1.6; }
+        #scratch-hint { font-size: 0.65rem; opacity: 0.4; margin-top: 0.8rem; }
+
+        /* ===================== MOBILE RESPONSIVE ===================== */
+        @media (max-width: 768px) {
+
+            /* Disable custom cursor on touch devices */
+            #custom-cursor { display: none; }
+            body { cursor: auto; }
+            button, .polaroid, .jar-wrap, .envelope-wrap,
+            .constellation-wrap, .scratch-wrap, .mood-btn,
+            #unlock-btn, #play-pause-btn, #generate-btn,
+            #promise-btn, #open-envelope-btn, #hold-btn,
+            #constellation-reset { cursor: pointer; }
+
+            /* Scroll thread — move away from edge on small screens */
+            #scroll-thread { left: 12px; }
+
+            /* Section padding — reduce horizontal padding */
+            .section-padding { padding: 10vh 6%; }
+
+            /* Hero name */
+            h1.name { font-size: clamp(2.8rem, 15vw, 5rem); letter-spacing: 0.05em; }
+
+            /* Countdown */
+            #countdown { font-size: 1.1rem; }
+
+            /* Timeline */
+            .timeline-container { max-width: 100%; }
+            .timeline-entry { padding-left: 28px; margin-bottom: 3rem; }
+            .timeline-entry p.serif { font-size: 1.3rem; }
+
+            /* Trait items */
+            .trait-item { font-size: clamp(1.2rem, 5vw, 1.8rem); margin: 12vh 0; }
+
+            /* Scattered notes — switch from absolute to flex wrap on mobile */
+            .scattered-field {
+                position: static;
+                min-height: auto;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1.2rem;
+                justify-content: center;
+                padding: 1rem 0;
+            }
+            .note {
+                position: static !important;
+                opacity: 0.7 !important;
+                max-width: 45%;
+                font-size: 0.85rem;
+                text-align: center;
+            }
+
+            /* Mood grid */
+            .mood-grid { gap: 0.8rem; }
+            .mood-btn { padding: 10px 14px; font-size: 0.65rem; }
+
+            /* Generator */
+            #reason-text { font-size: clamp(1.1rem, 4vw, 1.6rem); }
+
+            /* Hold button */
+            .hold-container { width: 100%; max-width: 280px; }
+
+            /* Constellation canvas */
+            .constellation-wrap { height: 280px; }
+
+            /* Polaroid grid — stack on small screens */
+            .polaroid-grid { gap: 1.2rem; }
+            .polaroid { width: 160px; }
+            .polaroid-blank { height: 150px; }
+
+            /* Time capsule */
+            .time-capsule-container { padding: 3rem 1.2rem; }
+
+            /* Scratch card */
+            .scratch-wrap { width: 90%; max-width: 280px; }
+
+            /* Map SVG */
+            .map-svg-wrap { max-width: 100%; }
+
+            /* Envelope */
+            .envelope-wrap { width: 90%; max-width: 260px; }
+
+            /* Birthday section — center-align on mobile */
+            #birthday-content {
+                align-items: center !important;
+            }
+            #birthday-content h2 {
+                font-size: 2.2rem !important;
+                text-align: center !important;
+            }
+            #birthday-content p {
+                text-align: left !important;
+                margin-left: 0 !important;
+                font-size: 1.05rem !important;
+            }
+
+            /* Audio player */
+            .audio-container { max-width: 90%; }
+
+            /* Urdu poem */
+            .urdu { font-size: 1rem; line-height: 2.3; }
+
+            /* Goldilocks orbit */
+            .orbit { width: 110px; height: 110px; }
+
+            /* Days since counter */
+            #days-since-counter { font-size: clamp(2.5rem, 12vw, 5rem) !important; }
+        }
+
+        @media (max-width: 420px) {
+            .section-padding { padding: 8vh 5%; }
+            h1.name { font-size: clamp(2.2rem, 17vw, 3.5rem); }
+            .note { max-width: 90%; }
+            .polaroid { width: 140px; }
+            .polaroid-blank { height: 130px; }
+            .timeline-entry p.serif { font-size: 1.15rem; }
+            #birthday-content h2 { font-size: 1.8rem !important; }
+            .constellation-wrap { height: 240px; }
+            .jar-wrap { width: 100px; height: 130px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="custom-cursor"></div>
+
+    <div class="grain"></div>
+    <div id="scroll-thread"></div>
+
+    <main id="main-content">
+
+        <!-- 1. HERO -->
+        <section class="section-padding">
+            <p id="time-greeting" class="mono greeting-text">...</p>
+            <h1 class="name serif" data-value="Jawaria">Jawaria</h1>
+            <div id="countdown" class="mono">00d 00h 00m 00s</div>
+            <p class="mono">Until the 31st returns.</p>
+        </section>
+
+        <!-- 2. DAYS SINCE -->
+        <section class="section-padding reveal">
+            <div id="days-since-counter" class="serif" style="font-size: clamp(3rem, 10vw, 6rem); color: var(--accent-gold);">0</div>
+            <p class="mono">days since you got jealous that night and became mine.</p>
+        </section>
+
+        <!-- 3. THE PHASES -->
+        <section class="section-padding">
+            <p class="mono" style="margin-bottom: 4rem; font-size: 1rem; letter-spacing: 0.1em;">The Phases</p>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <div class="timeline-entry reveal">
+                    <div class="dot"></div>
+                    <span class="mono" style="color: var(--accent-gold);">the prelude</span>
+                    <p class="serif" style="font-size: 1.6rem; margin-top: 0.5rem; opacity: 0.9;">The number of layers I had to unfold to know your real soft self beneath.</p>
+                </div>
+                <div class="timeline-entry reveal">
+                    <div class="dot"></div>
+                    <span class="mono" style="color: var(--accent-gold);">the shift</span>
+                    <p class="serif" style="font-size: 1.6rem; margin-top: 0.5rem; opacity: 0.9;">Promising you the comfort of the space where you could cry in my arms every time.</p>
+                </div>
+                <div class="timeline-entry reveal">
+                    <div class="dot"></div>
+                    <span class="mono" style="color: var(--accent-gold);">the anchor</span>
+                    <p class="serif" style="font-size: 1.6rem; margin-top: 0.5rem; opacity: 0.9;">To be certain about that going forward, you are what I need in my life and nothing else.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OCTOBER 6 / MOON -->
+        <section class="section-padding reveal">
+            <div class="moon-graphic"></div>
+            <h2 class="serif" style="margin-bottom: 1rem; font-size: 2.5rem;">October 6</h2>
+            <p class="serif" style="max-width: 500px; opacity: 0.8; font-size: 1.2rem;">
+                The sky recorded the exact moment my life changed. This was the shape of the moon the night you became mine.
+            </p>
+        </section>
+
+        <!-- 5. MOOD CHECK-IN -->
+        <section class="section-padding reveal">
+            <p class="mono" style="margin-bottom: 0.5rem;">how are you feeling</p>
+            <p class="serif" style="opacity: 0.6; font-size: 1rem; margin-bottom: 0.5rem;">right now, honestly</p>
+            <div class="mood-grid">
+                <button class="mood-btn" data-mood="happy"><span>🌤</span><span>happy</span></button>
+                <button class="mood-btn" data-mood="sad"><span>🌧</span><span>sad</span></button>
+                <button class="mood-btn" data-mood="tired"><span>🌙</span><span>tired</span></button>
+                <button class="mood-btn" data-mood="anxious"><span>🌊</span><span>anxious</span></button>
+                <button class="mood-btn" data-mood="loved"><span>🌸</span><span>loved</span></button>
+                <button class="mood-btn" data-mood="numb"><span>🪨</span><span>numb</span></button>
+                <button class="mood-btn" data-mood="silly"><span>🌀</span><span>silly</span></button>
+                <button class="mood-btn" data-mood="missing"><span>🕯</span><span>missing you</span></button>
+            </div>
+            <p id="mood-response"></p>
+        </section>
+
+        <!-- 6. THE ODDS -->
+        <section class="section-padding reveal">
+            <p class="mono" style="margin-bottom: 2rem;">The Odds</p>
+            <p class="serif" style="max-width: 600px; opacity: 0.9; font-size: 1.4rem;">
+                You know they say the probability of a person existing exactly as they are is 1 in 400 trillion. Every decision, every star collapsing, even every masturbation that our ancestors did in order, all of it happened just so I could look at you today and tell god that making the world was worth it.
+            </p>
+        </section>
+
+        <!-- 7. MY OBSERVATIONS -->
+        <section class="section-padding">
+            <p class="mono">My Observations</p>
+            <div class="trait-item serif">The way you hide and handle your pain is so unbelievable to me.</div>
+            <div class="trait-item serif">I love annoying you with my unnecessary details.</div>
+            <div class="trait-item serif">Fine, you're more horny than me.</div>
+            <div class="trait-item serif">The soft giggles in your voice are my favorite thing to hear on calls.</div>
+        </section>
+
+        <!-- 7b. SCATTERED NOTES -->
+        <section class="scattered-section">
+            <p class="mono" style="margin-bottom: 0.5rem; z-index:2;">the small things</p>
+            <p class="serif" style="opacity:0.5; font-size:1rem; margin-bottom:3rem; z-index:2;">details i carry without meaning to</p>
+            <div class="scattered-field" id="scattered-field">
+                <span class="note" data-i="0">you love to sleep with open hair</span>
+                <span class="note" data-i="1">your second fav dessert is tiramisu, first one we both know</span>
+                <span class="note" data-i="2">you love spanich and french latte more than water</span>
+                <span class="note" data-i="3">i still remember watching you in red for the first time</span>
+                <span class="note" data-i="4">fav food, mandi and hummus, and OPT of course</span>
+                <span class="note" data-i="5">I noticed you get silent when you cry on calls</span>
+                <span class="note" data-i="6">what hurts me is that you left singing when you were 12</span>
+                <span class="note" data-i="7">and you love tulips, cause they're rare like you</span>
+                <span class="note" data-i="8">your fav elderly person is your dadi baddie je</span>
+                <span class="note" data-i="9">you love fresh scent notes of roses and jasmine</span>
+                <span class="note" data-i="10">and your love for almond roasted and pistachio ice cream</span>
+                <span class="note" data-i="11">you hate listening to faaslay and nahi milta and i know why.</span>
+                <span class="note" data-i="12">your left sided dimple appeared on 24 january</span>
+                <span class="note" data-i="13">your one talent is hiding your pain from everyone</span>
+                <span class="note" data-i="14">yes, we hate tomatoes.</span>
+                <span class="note" data-i="15">you exactly know which right music to pick for every clip</span>
+                <span class="note" data-i="16">i love how you ask my views about things that matter to you</span>
+                <span class="note" data-i="17">your love and hate relationship with cats, sorry</span>
+                <span class="note" data-i="18">you always have an opinion but you wait to be asked</span>
+                <span class="note" data-i="19">you have no problem waiting for worthful things</span>
+            </div>
+        </section>
+        <section class="section-padding reveal">
+            <p class="mono" style="margin-bottom: 0.5rem;">scratch to reveal</p>
+            <p class="serif" style="opacity: 0.6; font-size: 1rem; margin-bottom: 1rem;">something i've been holding for you</p>
+            <div class="scratch-wrap">
+                <div class="scratch-reveal">
+                    <p>you’re the most beautiful surprise that life ever gave me.</p>
+                </div>
+                <canvas id="scratch-canvas"></canvas>
+            </div>
+            <p id="scratch-hint" class="mono">use your finger or mouse to scratch</p>
+        </section>
+
+        <!-- 9. WHY I LOVE YOU -->
+        <section class="section-padding">
+            <p class="mono" style="margin-bottom: 1rem;">Why I love you, Jawaria</p>
+            <div class="generator-container">
+                <p id="reason-text" class="serif">Because tusi te bare pretty ho.</p>
+                <button id="generate-btn">another reason</button>
+            </div>
+        </section>
+
+        <!-- 10. PROMISE JAR -->
+        <section class="section-padding reveal">
+            <p class="mono" style="margin-bottom: 0.5rem;">the promise jar</p>
+            <p class="serif" style="opacity: 0.6; font-size: 1rem; margin-bottom: 1rem;">small things i swear to you</p>
+            <div class="jar-wrap" id="jar-wrap">
+                <div class="jar-lid"></div>
+                <div class="jar-body">
+                    <div class="jar-glow"></div>
+                    <p class="jar-slip" id="jar-slip">tap to unfold a promise</p>
+                </div>
+            </div>
+            <button id="promise-btn">unfold one</button>
+        </section>
+
+        <!-- 11. HOLD TO REVEAL -->
+        <section class="section-padding">
+            <p class="mono">don't rush</p>
+            <div class="hold-container">
+                <button id="hold-btn" class="serif">press and hold</button>
+                <div class="progress-track" id="progress-fill"></div>
+            </div>
+            <div id="secret-message" class="hidden-content">
+                <p class="serif" style="font-size: 2rem; color: var(--accent-gold);">In a lifetime of temporary things, you are my favorite constant.</p>
+            </div>
+        </section>
+
+        <!-- 12. CONSTELLATION -->
+        <section class="section-padding reveal">
+            <p class="mono" style="margin-bottom: 0.5rem;">draw our constellation</p>
+            <p class="serif" style="opacity: 0.6; font-size: 1rem; margin-bottom: 0.5rem;">connect the stars — see what we become</p>
+            <div class="constellation-wrap">
+                <canvas id="constellation-canvas"></canvas>
+            </div>
+            <p id="constellation-msg"></p>
+            <button id="constellation-reset">reset the sky</button>
+        </section>
+
+        <!-- 15. AUDIO -->
+        <section class="section-padding reveal">
+            <p class="mono" style="margin-bottom: 2rem;">use headphones (its a rant)</p>
+            <div class="audio-container">
+                <button id="play-pause-btn" class="mono">play</button>
+                <div class="audio-track">
+                    <div class="audio-fill" id="audio-fill"></div>
+                </div>
+                <p id="audio-time" class="mono">0:00 / 0:00</p>
+                <audio id="voice-note" src="Audio%20Note.mp4"></audio>
+            </div>
+            <p class="serif" style="max-width: 500px; opacity: 0.8; font-size: 1.2rem; margin-top: 2rem;">Some things are better heard than read.</p>
+        </section>
+
+        <!-- 16. RESERVED FRAMES -->
+        <section class="section-padding reveal">
+            <p class="mono" style="margin-bottom: 2rem;">Reserved Frames</p>
+            <p class="serif" style="max-width: 500px; opacity: 0.8; font-size: 1.2rem; margin-bottom: 3rem;">Empty spaces waiting for the moments we haven't lived yet.</p>
+            <div class="polaroid-grid">
+                <div class="polaroid" style="transform: rotate(-2deg);">
+                    <label class="polaroid-blank" data-slot="0" title="tap to add a photo">
+                        <input type="file" accept="image/*" class="polaroid-input" style="display:none;">
+                        <span class="polaroid-hint">tap to add ✦</span>
+                        <img class="polaroid-img" style="display:none; width:100%; height:100%; object-fit:cover;">
+                    </label>
+                    <p class="serif caption">Our first coffee date.</p>
+                </div>
+                <div class="polaroid" style="transform: rotate(3deg); margin-top: 20px;">
+                    <label class="polaroid-blank" data-slot="1" title="tap to add a photo">
+                        <input type="file" accept="image/*" class="polaroid-input" style="display:none;">
+                        <span class="polaroid-hint">tap to add ✦</span>
+                        <img class="polaroid-img" style="display:none; width:100%; height:100%; object-fit:cover;">
+                    </label>
+                    <p class="serif caption">That one blurry selfie we'll take.</p>
+                </div>
+                <div class="polaroid" style="transform: rotate(-1deg);">
+                    <label class="polaroid-blank" data-slot="2" title="tap to add a photo">
+                        <input type="file" accept="image/*" class="polaroid-input" style="display:none;">
+                        <span class="polaroid-hint">tap to add ✦</span>
+                        <img class="polaroid-img" style="display:none; width:100%; height:100%; object-fit:cover;">
+                    </label>
+                    <p class="serif caption">You, looking pretty.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 17. THINGS I WANNA DO WHEN WE MEET -->
+        <section class="section-padding">
+            <p class="mono" style="margin-bottom: 3rem; font-size: 1rem; letter-spacing: 0.1em;">Things i wanna do when we meet</p>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <div class="timeline-entry reveal">
+                    <div class="dot"></div>
+                    <span class="mono" style="color: var(--accent-gold);">coordinate 01</span>
+                    <p class="serif" style="font-size: 1.6rem; margin-top: 0.5rem; opacity: 0.9;">To lock our eyes and stay there until your blush catches up.</p>
+                </div>
+                <div class="timeline-entry reveal">
+                    <div class="dot"></div>
+                    <span class="mono" style="color: var(--accent-gold);">coordinate 02</span>
+                    <p class="serif" style="font-size: 1.6rem; margin-top: 0.5rem; opacity: 0.9;">Listening to tender music together while I cook noodles for you.</p>
+                </div>
+                <div class="timeline-entry reveal">
+                    <div class="dot"></div>
+                    <span class="mono" style="color: var(--accent-gold);">coordinate 03</span>
+                    <p class="serif" style="font-size: 1.6rem; margin-top: 0.5rem; opacity: 0.9;">Sit next to you and write a poem of words which come to my mind seeing you.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 18. SEALED LETTER — unlocks May 7, 2026 at 3PM PKT -->
+        <section class="section-padding reveal">
+            <p class="mono" style="margin-bottom: 0.5rem;">a sealed letter</p>
+            <p class="serif" style="opacity: 0.6; font-size: 1rem; margin-bottom: 1rem;">locked until the day we meet</p>
+            <div class="envelope-wrap" id="envelope-wrap">
+                <div class="envelope-body">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-seal">♡</div>
+                    <p class="envelope-letter" id="envelope-letter">
+                        Alright, one thing is confirmed, by the time you'll be reading this, you'd be sitting next to me. Or maybe on my lap if you are not being shy right now. But when the fuck we are going to meet I mean I have no idea in heaven or hell. It will be the most unstable emotional kicker day for both of us. Oh, you think I'm going to act all okay and cool? I bet you, I'd be kicking my feet in the air on my way to you. But what do I get you? If I tell you right now, even giving you a hint might ruin the surprise and my future self will hate me for it. But leave all that.<br><br>
+                        Something that started on 14th august with a single text and now we're sitting into each other's presence is nothing less than a miracle of possibilities. But the possibility of "what if we never meet" exists as well. Don't kick me in the nuts if you're reading this alright, I'm just afraid to lose you that's all. I love you more than a man could love so the mixture of getting what one wants sometimes scare you off as well. But at the same time, something about this doesn't feel temporary. I've tried to doubt it, it just doesn't sit right.<br><br>
+                        It's February now and I think I should code something into the website that will count the days since October and we'll see after how many days we meet, if we meet.<br><br>
+                        Okay let's assume we are meeting today, what do I notice first thing about you? Your smile? More like blushes. Or how your almondy doe eyes change when you smile. I keep wondering what the first 5 seconds will look like. Do we just stand there like idiots or do I pull you in before my brain even catches up or or…<br><br>
+                        Being honest don't want to bore you with this letter, if you're next to me, kiss me already. (I'm jealous of my lucky future self). Bye.
+                        <br><br><span id="envelope-written-note" style="font-size:0.8rem; opacity:0.45; font-style:normal; font-family:var(--mono-font); letter-spacing:0.05em;"></span>
+                    </p>
+                </div>
+            </div>
+            <p id="envelope-label" class="mono" style="margin-top: 1rem; opacity: 0.5;">this letter opens the day we finally meet.</p>
+        </section>
+
+        <!-- 18b. DAYS SINCE WE MET -->
+        <section class="section-padding reveal" id="days-met-section">
+            <div id="days-met-counter" class="serif" style="font-size: clamp(3rem, 10vw, 6rem); color: var(--accent-gold);">—</div>
+            <p class="mono" id="days-met-label">days since the day we finally met.</p>
+        </section>
+
+        <!-- 19. HAPPY BIRTHDAY — LAST -->
+        <section id="birthday-gate" class="section-padding">
+            <div id="birthday-content" style="display: flex; flex-direction: column; align-items: flex-end;">
+                <h2 class="serif" style="font-size: 3.5rem; margin-bottom: 2.5rem; text-align: right;">Happy Birthday, My Jawaria</h2>
+                <p class="serif" style="max-width: 600px; margin-bottom: 2rem; font-size: 1.2rem; text-align: justify; margin-left: auto;">
+Today feels like the world paused for a second just to make space for you and somehow i'm the lucky one, existing in the same timeline, breathing the same air, getting to know you in ways no one else does. That's a flex actually. It's a quiet kind of miracle, having you here, having you in my life.</p>
+                <p class="serif" style="max-width: 600px; margin-bottom: 2rem; font-size: 1.2rem; text-align: justify; margin-left: auto;">
+But this year, i don't want to love you on autopilot really. i want to love you with intention to notice the small things i might've missed, the shifts in your voice, the cries you don't explain early on, the thoughts you keep just beneath the surface. i want to understand you, not just be close to you.</p>
+                <p class="serif" style="max-width: 600px; margin-bottom: 2rem; font-size: 1.2rem; text-align: justify; margin-left: auto;">
+I want to learn your silences the way people learn songs, to be the place you come to when everything feels heavy and the reason you smile when it suddenly doesn't. and no matter how much time passes, i never want you to feel ordinary to me. i want that same pull, that same wonder like who trapped who but I'd love you like i'm still discovering you for the first time.</p>
+                <p class="serif" style="max-width: 600px; font-size: 1.2rem; text-align: justify; margin-left: auto;">
+and just so you know, i do plan on annoying you consistently this year too but just in a more thoughtful, premium kind of way because you're not just someone in my life, you're the part that softens everything and you give me teas i didn't know i needed so i love you deeply, honestly and for everything.</p>
+            </div>
+        </section>
+
+        <footer class="section-padding"><p class="mono">for you, my love</p></footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 0. CUSTOM CURSOR & TAB TITLE ---
+            const cursor = document.getElementById('custom-cursor');
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.transform = `translate3d(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%), 0)`;
+            });
+            // Enlarge cursor slightly on clickable elements
+            document.querySelectorAll('button, .name').forEach(el => {
+                el.addEventListener('mouseenter', () => { cursor.style.width = '14px'; cursor.style.height = '14px'; });
+                el.addEventListener('mouseleave', () => { cursor.style.width = '6px'; cursor.style.height = '6px'; });
+            });
+
+            const originalTitle = document.title;
+            document.addEventListener("visibilitychange", () => {
+                document.title = document.hidden ? "Come back..." : originalTitle;
+            });
+
+            // Pakistan Standard Time (PKT) Greeting
+            const setGreeting = () => {
+                const options = { timeZone: 'Asia/Karachi', hour: 'numeric', hour12: false };
+                const pktHour = parseInt(new Intl.DateTimeFormat('en-US', options).format(new Date()));
+                
+                const greetingEl = document.getElementById('time-greeting');
+                if(pktHour >= 5 && pktHour < 12) greetingEl.innerText = "Morning light suits you,";
+                else if(pktHour >= 12 && pktHour < 18) greetingEl.innerText = "The day is better with you,";
+                else if(pktHour >= 18 && pktHour < 22) greetingEl.innerText = "The evening is listening to you,";
+                else greetingEl.innerText = "The world is asleep, just for you,";
+            };
+            setGreeting();
+
+  // --- 1. STARFIELD REMOVED — pure black background ---
+
+            // --- 2. THE JAWARIA PROBABILITY SCRAMBLE EFFECT ---
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+            let scrambleInterval = null;
+            const nameEl = document.querySelector('.name');
+            
+            nameEl.onmouseover = event => {
+                let iteration = 0;
+                clearInterval(scrambleInterval);
+                
+                scrambleInterval = setInterval(() => {
+                    event.target.innerText = event.target.innerText
+                    .split("")
+                    .map((letter, index) => {
+                        if(index < iteration) return event.target.dataset.value[index];
+                        return letters[Math.floor(Math.random() * letters.length)];
+                    })
+                    .join("");
+                    
+                    if(iteration >= event.target.dataset.value.length){ 
+                        clearInterval(scrambleInterval); 
+                    }
+                    iteration += 1 / 4; 
+                }, 30);
+            };
+
+            // --- 3. REASON GENERATOR ---
+            const reasons = [
+"Because the way you think challenges me in the best way.",
+"Because you make ordinary days feel meaningful.",
+"Because you make me want to be the best version of myself.",
+"Because your presence alone calms my mind.",
+"Because you understand things without me explaining everything.",
+"Because you notice when something is off with me.",
+"Because your laugh stays in my head longer than it should.",
+"Because you make effort even when it’s not easy.",
+"Because you are genuine without trying to impress anyone.",
+"Because you make me want to be better without forcing it.",
+"Because your honesty feels rare and valuable.",
+"Because you care in ways that are subtle but consistent.",
+"Because you don’t treat love like a performance.",
+"Because you make distance feel less heavy.",
+"Because your messages can change my entire mood.",
+"Because you are emotionally present when it matters.",
+"Because you listen with intent, not just patience.",
+"Because your reactions feel real, not filtered.",
+"Because you bring warmth into cold moments.",
+"Because being with you feels natural, not complicated.",
+"Because you respect me as I am.",
+"Because you make silence comfortable instead of awkward.",
+"Because your personality has depth, not just surface charm.",
+"Because you stay consistent in a world that isn’t.",
+"Because you don’t make love feel conditional.",
+"Because you inspire calm rather than chaos.",
+"Because your attention feels focused and sincere.",
+"Because you make small conversations feel important.",
+"Because you respond with care, not obligation.",
+"Because you bring balance into my thoughts.",
+"Because your way of expressing yourself feels unique.",
+"Because you don’t hide behind unnecessary pretenses.",
+"Because you show patience when things aren’t perfect.",
+"Because your energy feels safe to be around.",
+"Because you give meaning to shared moments.",
+"Because you make me feel understood without effort.",
+"Because you don’t make me question your intentions.",
+"Because your presence feels grounding.",
+"Because you make connection feel simple and real.",
+"Because you value emotional depth.",
+"Because you treat even small interactions with care.",
+"Because you make me feel chosen, not just accepted.",
+"Because your support feels genuine.",
+"Because you create comfort without trying too hard.",
+"Because you are consistent in how you treat me.",
+"Because you bring clarity to emotional confusion.",
+"Because you make vulnerability feel safe.",
+"Because your understanding feels intuitive.",
+"Because you don’t complicate what is meant to be simple.",
+"Because your presence feels like a pause from everything else.",
+"Because you don’t dismiss what matters to me.",
+"Because you make effort visible in quiet ways.",
+"Because you care even when it’s inconvenient.",
+"Because you turn me on so easily.",
+"Because you add meaning to everyday routines.",
+"Because you make connection feel real rather than forced.",
+"Because your consistency builds trust over time.",
+"Because you bring emotional stability into my life.",
+"Because you understand emotional nuance.",
+"Because you make time feel well spent.",
+"Because you stay authentic regardless of the situation.",
+"Because your communication feels intentional.",
+"Because you don’t make love feel complicated by ego.",
+"Because you respond with sincerity, not scripts.",
+"Because you make shared silence peaceful.",
+"Because you give importance to emotional presence.",
+"Because you make me feel heard in a real way.",
+"Because your way of caring feels personal.",
+"Because you make distance emotionally manageable.",
+"Because you don’t ignore the small things.",
+"Because your consistency builds comfort.",
+"Because you show reliability without needing reminders.",
+"Because your attention feels meaningful.",
+"Because you bring steadiness into unpredictable moments.",
+"Because you make emotional connection feel natural.",
+"Because you are thoughtful without overcomplicating things.",
+"Because your presence reduces mental noise.",
+"Because you make interaction feel effortless.",
+"Because you stay real instead of performing a role.",
+"Because you respond in ways that show care.",
+"Because you create a sense of closeness even from afar.",
+"Because you make me feel like I matter.",
+"Because your understanding doesn’t feel forced.",
+"Because you add comfort to uncertainty.",
+"Because you bring emotional clarity.",
+"Because you make communication feel open.",
+"Because you don’t turn small things into problems.",
+"Because your presence feels steady and reassuring.",
+"Because you make shared moments feel complete.",
+"Because you show emotional intelligence in subtle ways.",
+"Because you don’t make me question your loyalty.",
+"Because you create a sense of belonging.",
+"Because your attention feels focused and genuine.",
+"Because you make connection feel meaningful, not temporary.",
+"Because you bring balance between emotion and calmness.",
+"Because you make time together feel valuable.",
+"Because you don’t reduce feelings to something shallow.",
+"Because you make me feel emotionally aligned.",
+"Because your presence feels like something I can rely on.",
+"Because you make the idea of us feel real.",
+"Because you make my thoughts feel less scattered.",
+"Because your presence feels consistent and reassuring.",
+"Because you bring a sense of direction into my life.",
+"Because you make effort look natural.",
+"Because you care without making it a task.",
+"Because your silence still feels connected.",
+"Because you don’t disappear when things get real.",
+"Because you show up emotionally, not just physically.",
+"Because your words carry sincerity.",
+"Because you make honesty feel safe.",
+"Because you don’t overcomplicate what you feel.",
+"Because you bring stability into unpredictable moments.",
+"Because your understanding feels effortless.",
+"Because you respond with intention, not habit.",
+"Because you make me feel emotionally seen.",
+"Because your attention feels rare and focused.",
+"Because you stay present in conversations.",
+"Because you make distance feel less like a barrier.",
+"Because your consistency builds quiet trust.",
+"Because you don’t switch personalities depending on the situation.",
+"Because your reactions feel grounded.",
+"Because you make time together feel valuable.",
+"Because you don’t treat attention as something temporary.",
+"Because you listen beyond just words.",
+"Because your care shows in actions, not just expressions.",
+"Because you make connection feel genuine.",
+"Because your presence lowers my stress.",
+"Because you make small moments feel significant.",
+"Because you don’t make me feel like I’m asking for too much.",
+"Because you respect emotional boundaries.",
+"Because your tone feels calm and steady.",
+"Because you add meaning to simple exchanges.",
+"Because you make communication feel smooth.",
+"Because you are predictable in a comforting way, not boring.",
+"Because you don’t create unnecessary emotional noise.",
+"Because your understanding feels natural, not forced.",
+"Because you don’t rush emotions.",
+"Because your patience is visible in how you respond.",
+"Because you make space for real conversations.",
+"Because your attention feels intentional.",
+"Because you don’t treat feelings lightly.",
+"Because you bring emotional clarity when things get confusing.",
+"Because your presence feels grounding in chaos.",
+"Because you don’t make love feel complicated.",
+"Because you value connection over ego.",
+"Because your reactions show thoughtfulness.",
+"Because you make consistency feel normal.",
+"Because you don’t avoid meaningful topics.",
+"Because your communication builds trust over time.",
+"Because you make me feel comfortable expressing myself.",
+"Because your presence feels like calm energy.",
+"Because you make effort without being reminded.",
+"Because you don’t ignore what matters.",
+"Because your engagement feels genuine.",
+"Because you create a sense of emotional safety.",
+"Because you make interactions feel balanced.",
+"Because you don’t leave things unresolved unnecessarily.",
+"Because your responses show attention to detail.",
+"Because you make me feel prioritized in subtle ways.",
+"Because your presence feels reassuring during uncertainty.",
+"Because you maintain your authenticity.",
+"Because you don’t pretend to be someone else.",
+"Because you make emotional openness feel easy.",
+"Because your consistency builds reliability.",
+"Because you make shared moments feel meaningful.",
+"Because you respond with care even in simple conversations.",
+"Because you don’t reduce conversations to formality.",
+"Because your presence feels warm without effort.",
+"Because you make connection feel stable.",
+"Because you don’t withdraw when things get real.",
+"Because your attention feels steady.",
+"Because you make me feel emotionally aligned with you.",
+"Because you bring clarity instead of confusion.",
+"Because you don’t make assumptions without understanding.",
+"Because your responses feel thoughtful and composed.",
+"Because you make emotional exchange feel mutual.",
+"Because you don’t leave things halfway emotionally.",
+"Because your presence feels dependable.",
+"Because you make communication feel natural.",
+"Because you don’t complicate what could be simple.",
+"Because your energy feels consistent over time.",
+"Because you bring comfort without trying to impress.",
+"Because you don’t make me question where I stand.",
+"Because your presence feels quietly important.",
+"Because you show care without exaggeration.",
+"Because you make me feel at ease in being myself.",
+"Because your understanding feels patient and real.",
+"Because you don’t rush connection.",
+"Because your attention feels focused on what matters.",
+"Because you create emotional stability through consistency.",
+"Because you don’t make love feel uncertain.",
+"Because your way of being feels steady and reliable.",
+"Because you make shared time feel meaningful even in silence.",
+"Because you don’t turn small moments into something superficial.",
+"Because your presence feels like emotional balance.",
+"Because you make me feel connected without pressure.",
+"Because you don’t complicate feelings with unnecessary distance.",
+"Because your consistency builds long term trust and gives space to grow love.",
+"Because you make closeness feel natural rather and not forced at all.",
+"Because your presence feels like something I can rely on at the end of the day.",
+"Because, in a way life feels easier with you in it.",
+"Because of the way you laugh at things you truly find funny.",
+"Because of the way you kiss all over my face.", 
+"Because you send me your cute tiktoks.",
+            ];
+            const generateBtn = document.getElementById('generate-btn');
+            const reasonText = document.getElementById('reason-text');
+            
+            generateBtn.addEventListener('click', () => {
+                reasonText.style.opacity = 0;
+                setTimeout(() => {
+                    let newReason = reasonText.innerText;
+                    while(newReason === reasonText.innerText) {
+                        newReason = reasons[Math.floor(Math.random() * reasons.length)];
+                    }
+                    reasonText.innerText = newReason;
+                    reasonText.style.opacity = 1;
+                }, 500);
+            });
+
+            // --- 5. SCROLL THREAD ---
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                document.getElementById('scroll-thread').style.height = (winScroll / height) * 100 + "%";
+            });
+
+            // --- 6. TIMER ---
+            const initTimer = () => {
+                const update = () => {
+                    const now = new Date();
+                    const isBirthday = now.getMonth() === 2 && now.getDate() === 31; // Month is 0-indexed (2 = March)
+
+                    if (isBirthday) {
+                        document.getElementById('countdown').innerText = "Happy Birthday my love!";
+                        document.getElementById('countdown').nextElementSibling.innerText = "The 31st is here.";
+                        return; // Stops the countdown calculation for today
+                    }
+
+                    let target = new Date(`March 31, ${now.getFullYear()} 00:00:00`);
+                    if (now > target) target.setFullYear(target.getFullYear() + 1);
+                    const diff = target - now;
+                    const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000);
+                    const m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+                    
+                    document.getElementById('countdown').innerText = `${String(d).padStart(2,'0')}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+                    document.getElementById('countdown').nextElementSibling.innerText = "Until the 31st returns.";
+                };
+                setInterval(update, 1000); 
+                update();
+            };
+            
+            // --- 6.1 DAYS SINCE OCTOBER 6, 2025 ---
+            const initDaysSince = () => {
+                const counterEl = document.getElementById('days-since-counter');
+                const startDate = new Date('October 6, 2025 00:00:00');
+                
+                const updateDays = () => {
+                    const now = new Date();
+                    const diffInMs = now - startDate;
+                    const daysPassed = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+                    if(counterEl) counterEl.innerText = daysPassed > 0 ? daysPassed : 0;
+                };
+
+                updateDays();
+                setInterval(updateDays, 3600000); 
+            };
+
+            // --- 7. SCROLL OBSERVERS ---
+            const initObservers = () => {
+                const revealObs = new IntersectionObserver(entries => {
+                    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+                const focusObs = new IntersectionObserver(entries => {
+                    entries.forEach(e => {
+                        if(e.isIntersecting) e.target.classList.add('in-focus');
+                        else e.target.classList.remove('in-focus');
+                    });
+                }, { rootMargin: '-35% 0px -35% 0px' });
+                document.querySelectorAll('.trait-item').forEach(el => focusObs.observe(el));
+            };
+
+            // --- 8. HOLD TO REVEAL ---
+            const initHold = () => {
+                const btn = document.getElementById('hold-btn');
+                const fill = document.getElementById('progress-fill');
+                let holding = false, prog = 0, timer;
+                const start = (e) => { if(e.type === 'touchstart') e.preventDefault(); holding = true; loop(); };
+                const end = () => { holding = false; prog = 0; fill.style.width = '0%'; cancelAnimationFrame(timer); };
+                const loop = () => {
+                    if(!holding) return;
+                    prog += 0.8; fill.style.width = prog + '%';
+                    if(prog >= 100) { 
+                        document.getElementById('secret-message').classList.add('revealed'); 
+                        btn.parentElement.classList.add('completed'); 
+                    } else timer = requestAnimationFrame(loop);
+                };
+                btn.addEventListener('mousedown', start); window.addEventListener('mouseup', end);
+                btn.addEventListener('touchstart', start); window.addEventListener('touchend', end);
+            };
+
+            
+            
+            // --- 10. CUSTOM AUDIO PLAYER ---
+            const audio = document.getElementById('voice-note');
+            const playBtn = document.getElementById('play-pause-btn');
+            const audioFill = document.getElementById('audio-fill');
+            const audioTime = document.getElementById('audio-time');
+
+            if (audio && playBtn) {
+                // Format time function (seconds to M:SS)
+                const formatTime = (time) => {
+                    if (isNaN(time)) return "0:00";
+                    const min = Math.floor(time / 60);
+                    const sec = Math.floor(time % 60);
+                    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+                };
+
+                // Play/Pause toggle with buffering state
+                playBtn.addEventListener('click', () => {
+                    if (audio.paused) {
+                        playBtn.innerText = 'buffering...';
+                        playBtn.disabled = true;
+                        const onCanPlay = () => {
+                            audio.play();
+                            playBtn.innerText = 'pause';
+                            playBtn.disabled = false;
+                            audio.removeEventListener('canplaythrough', onCanPlay);
+                        };
+                        if (audio.readyState >= 3) {
+                            audio.play();
+                            playBtn.innerText = 'pause';
+                            playBtn.disabled = false;
+                        } else {
+                            audio.addEventListener('canplaythrough', onCanPlay);
+                        }
+                    } else {
+                        audio.pause();
+                        playBtn.innerText = 'play';
+                    }
+                });
+
+                // Update progress bar and time
+                audio.addEventListener('timeupdate', () => {
+                    const percent = (audio.currentTime / audio.duration) * 100;
+                    audioFill.style.width = percent + '%';
+                    audioTime.innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+                });
+
+                // Update total time once the audio metadata loads
+                audio.addEventListener('loadedmetadata', () => {
+                    audioTime.innerText = `0:00 / ${formatTime(audio.duration)}`;
+                });
+
+                // Reset when audio finishes
+                audio.addEventListener('ended', () => {
+                    playBtn.innerText = 'play';
+                    audioFill.style.width = '0%';
+                    audio.currentTime = 0;
+                    audioTime.innerText = `0:00 / ${formatTime(audio.duration)}`;
+                });
+            }
+            
+            // --- IGNITION ---
+            const initAll = () => { initTimer(); initDaysSince(); initObservers(); initHold(); };
+            document.body.style.overflow = 'auto';
+            document.getElementById('main-content').classList.add('content-visible');
+            initAll();
+
+            // --- BIRTHDAY GATE — only visible on March 31 (PKT) ---
+            (function() {
+                const gate = document.getElementById('birthday-gate');
+                if (!gate) return;
+                const options = { timeZone: 'Asia/Karachi', month: 'numeric', day: 'numeric' };
+                const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(new Date());
+                const month = parseInt(parts.find(p => p.type === 'month').value);
+                const day   = parseInt(parts.find(p => p.type === 'day').value);
+                const isBirthday = (month === 3 && day === 31);
+                gate.style.display = isBirthday ? '' : 'none';
+            })();
+        });
+    </script>
+
+    <script>
+    // ---- DAYS SINCE WE MET (May 7, 2026) ----
+    (function() {
+        const MET_DATE = new Date('2026-05-07T00:00:00+05:00'); // PKT
+        const counter  = document.getElementById('days-met-counter');
+        const label    = document.getElementById('days-met-label');
+        const section  = document.getElementById('days-met-section');
+        if (!counter) return;
+
+        const now  = new Date();
+        const diff = now - MET_DATE;
+
+        if (diff < 0) {
+            // Haven't met yet — hide the section entirely
+            if (section) section.style.display = 'none';
+        } else {
+            const days = Math.floor(diff / 86400000);
+            counter.textContent = days === 0 ? 'today ♡' : days;
+            if (label) label.textContent = days === 0
+                ? 'the day we finally met. ♡'
+                : 'days since the day we finally met.';
+        }
+    })();
+
+    // ---- "WRITTEN X DAYS BEFORE WE MET" NOTE IN ENVELOPE ----
+    (function() {
+        const WRITTEN_DATE = new Date('2026-02-01T00:00:00+05:00'); // approx Feb 2026 PKT
+        const MET_DATE     = new Date('2026-05-07T00:00:00+05:00');
+        const daysBefore   = Math.round((MET_DATE - WRITTEN_DATE) / 86400000);
+        const note = document.getElementById('envelope-written-note');
+        if (note) note.textContent = `written ${daysBefore} days before we met.`;
+    })();
+
+    // ---- PROMISE JAR — one per day ----
+    const promises = [
+        "I promise to always pick up, no matter the hour.",
+        "I promise to never make you feel like too much.",
+        "I promise to remember the small things you mention once.",
+        "I promise to be the calm when everything else is loud.",
+        "I promise to never let distance become an excuse.",
+        "I promise to cook for you the first chance I get.",
+        "I promise to always tell you when something is wrong.",
+        "I promise to make you laugh at least once every single day.",
+        "I promise to hold your hand through things you can't explain.",
+        "I promise to love you on your worst days with the same effort.",
+        "I promise to never stop noticing you.",
+        "I promise to be someone you never have to perform for.",
+    ];
+
+    const promiseBtn = document.getElementById('promise-btn');
+    const jarSlip = document.getElementById('jar-slip');
+    const today = new Date().toDateString();
+    const storedDate = localStorage.getItem('promise_date');
+    const storedPromise = localStorage.getItem('promise_text');
+
+    if (storedDate === today && storedPromise) {
+        jarSlip.textContent = storedPromise;
+        jarSlip.classList.add('show');
+        promiseBtn.disabled = true;
+        promiseBtn.textContent = 'come back tomorrow';
+        promiseBtn.style.opacity = '0.4';
+    }
+
+    promiseBtn.addEventListener('click', () => {
+        const usedDate = localStorage.getItem('promise_date');
+        if (usedDate === today) {
+            jarSlip.classList.remove('show');
+            setTimeout(() => {
+                jarSlip.textContent = 'patience, my love. one promise a day only.';
+                jarSlip.classList.add('show');
+            }, 300);
+            return;
+        }
+        let p;
+        const last = localStorage.getItem('promise_text');
+        do { p = promises[Math.floor(Math.random() * promises.length)]; } while (p === last);
+        localStorage.setItem('promise_date', today);
+        localStorage.setItem('promise_text', p);
+        jarSlip.classList.remove('show');
+        setTimeout(() => {
+            jarSlip.textContent = p;
+            jarSlip.classList.add('show');
+            promiseBtn.textContent = 'come back tomorrow';
+            promiseBtn.style.opacity = '0.4';
+        }, 300);
+    });
+
+    // ---- SEALED ENVELOPE — unlocks May 7, 2026 at 3:00 PM PKT ----
+    (function() {
+        const envelope = document.getElementById('envelope-wrap');
+        const label = document.getElementById('envelope-label');
+
+        // Unlock datetime: May 7, 2026 15:00 PKT (UTC+5)
+        const UNLOCK_UTC = new Date('2026-05-07T10:00:00Z'); // 3PM PKT = 10:00 UTC
+
+        // Preview mode: add ?preview=1 to URL to see it unlocked now
+        const isPreview = new URLSearchParams(window.location.search).get('preview') === '1';
+
+        const checkUnlock = () => {
+            const now = new Date();
+            const shouldUnlock = isPreview || now >= UNLOCK_UTC;
+
+            if (shouldUnlock) {
+                envelope.classList.add('open');
+                if (label) {
+                    label.textContent = isPreview
+                        ? '✦ preview mode — this is how it will look on may 7th at 3pm'
+                        : 'opened the day we finally met. ♡';
+                    label.style.color = 'var(--accent-gold)';
+                    label.style.opacity = '0.8';
+                }
+            } else {
+                // Show countdown to unlock
+                const diff = UNLOCK_UTC - now;
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                if (label) label.textContent = `opens in ${d}d ${h}h ${m}m ✦`;
+            }
+        };
+
+        checkUnlock();
+        setInterval(checkUnlock, 30000);
+    })();
+
+    // ---- MOOD CHECK-IN ----
+    const moodResponses = {
+        happy:   "That pretty smile of yours, keep it. The world looks better when you're in it like this.",
+        sad:     "Come here in my arms. Lean your head on my chest and stay until it passes.",
+        tired:   "Rest. You carry a lot without telling anyone. Put it down for now. I'll still be here tomorrow.",
+        anxious: "Breathe. You've survived every hard thing so far. This one won't be different, I promise you.",
+        loved:   "Chuckles softly. That's exactly what you're supposed to feel. Always.",
+        numb:    "You know that's okay too. You don't have to feel everything at once. I'm not going anywhere.",
+        silly:   "I love you most like this. Chaotic, horny, absolutely unhinged. Please never stop.",
+        missing: "I know baby. My heart gets heavy too and I'll be with you as soon as I could.",
+    };
+    document.querySelectorAll('.mood-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const resp = document.getElementById('mood-response');
+            resp.classList.remove('show');
+            setTimeout(() => {
+                resp.textContent = moodResponses[btn.dataset.mood];
+                resp.classList.add('show');
+            }, 300);
+        });
+    });
+
+    // ---- SCATTERED NOTES ----
+    (function() {
+        const field = document.getElementById('scattered-field');
+        if (!field) return;
+        const notes = field.querySelectorAll('.note');
+
+        // Predefined positions (left%, top%) and rotations to avoid overlaps
+        const layout = [
+            { l:2,  t:2,  r:-4  }, { l:52, t:0,  r:3   }, { l:25, t:7,  r:-2  },
+            { l:68, t:10, r:5   }, { l:8,  t:18, r:2   }, { l:42, t:20, r:-6  },
+            { l:72, t:24, r:-3  }, { l:18, t:32, r:4   }, { l:55, t:33, r:-5  },
+            { l:0,  t:42, r:3   }, { l:35, t:44, r:-2  }, { l:65, t:45, r:6   },
+            { l:12, t:55, r:-5  }, { l:48, t:56, r:2   }, { l:76, t:58, r:-4  },
+            { l:5,  t:67, r:4   }, { l:38, t:68, r:-3  }, { l:62, t:70, r:5   },
+            { l:20, t:80, r:-6  }, { l:55, t:82, r:2   },
+        ];
+
+        const isMobile = window.innerWidth <= 768;
+        notes.forEach((note, i) => {
+            const pos = layout[i];
+            if (!isMobile) {
+                note.style.left = pos.l + '%';
+                note.style.top  = pos.t + '%';
+            }
+            note.style.transform = `rotate(${pos.r}deg)`;
+        });
+
+        // Staggered fade-in via IntersectionObserver
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    notes.forEach((note, i) => {
+                        setTimeout(() => note.classList.add('visible'), i * 120);
+                    });
+                    obs.disconnect();
+                }
+            });
+        }, { threshold: 0.1 });
+        obs.observe(field);
+    })();
+    (function() {
+        const canvas = document.getElementById('constellation-canvas');
+        const wrap = canvas.parentElement;
+        canvas.width = wrap.offsetWidth;
+        canvas.height = wrap.offsetHeight;
+        const ctx = canvas.getContext('2d');
+        const msgs = [
+            "this one's ours now.",
+            "we made something beautiful.",
+            "a new star every time.",
+            "no one else has this constellation.",
+            "written in the sky, just for you.",
+            "this didn’t exist before us.",
+"we gave it a place to stay.",
+"it answers only to us.",
+"no map could ever lead here.",
+"we kept choosing it into existence.",
+"this is what staying looks like.",
+"we built it in silence.",
+"no one else would understand it.",
+"it only opens when we do.",
+"we left our fingerprints all over it.",
+"it grows when we’re close.",
+"we didn’t borrow this from anywhere.",
+"it remembers every version of us.",
+"we kept it alive without trying.",
+"this belongs to the way we see each other.",
+"it started small and kept becoming.",
+"we never had to explain it.",
+"it exists because we didn’t leave.",
+"we made something that holds.",
+"it listens when everything else is loud.",
+"this is ours in our way.",
+"we kept adding meaning to it.",
+"no one else knows where this begins.",
+"it feels like it chose us back.",
+"we built this without a blueprint.",
+"it stays even when we don’t speak.",
+"we left parts of ourselves here.",
+"it doesn’t need to be named.",
+"we understood it before we understood us.",
+"it carries us without asking.",
+"this was never accidental.",
+"we made it out of nothing.",
+"it’s ours without needing to say it.",
+"we kept it real without trying.",
+"it knows what we don’t say.",
+"this holds more than words ever could.",
+"we didn’t rush it into being.",
+"it formed between moments.",
+"we stayed and it stayed back.",
+"it feels like a place, not a thing.",
+"we didn’t force it to exist.",
+"it happened because we let it.",
+"we didn’t need permission for this.",
+"it belongs to how we feel.",
+"we gave it time and it gave us this.",
+"it’s still becoming, slowly.",
+"we made something that doesn’t break easily.",
+"it stays even when we don’t try.",
+"we kept it ours without saying it out loud.",
+"this is where we meet without moving.",
+"we didn’t plan it, we became it.",
+"it’s written somewhere only we can read.",
+"we kept it untouched by everything else.",
+"it grows in the smallest ways.",
+"we didn’t need anyone else to see it.",
+"it feels like it’s always been here.",
+"we built it out of ordinary moments.",
+"it holds the parts we don’t show.",
+"we didn’t question it, we kept it.",
+"it carries something real.",
+"we made this without knowing how.",
+"it doesn’t fade the way other things do.",
+"we kept it safe without trying.",
+"it stays because we do.",
+"we didn’t shape it, it shaped us.",
+"it exists in the way we are.",
+"we didn’t need to define it.",
+"it feels complete without finishing.",
+"we made it without breaking anything.",
+"it belongs nowhere else.",
+"we kept it simple and it stayed.",
+"it holds more than it shows.",
+"we didn’t lose it along the way.",
+"it became something we return to.",
+"we made it feel like home.",
+"it stays even when everything else moves.",
+"we didn’t need to prove it.",
+"it exists without effort.",
+"we kept it alive just by being here.",
+"it doesn’t ask for anything.",
+"we made something that remains.",
+"it holds us together in calm ways.",
+"we didn’t rush to understand it.",
+"it exists beyond explanations.",
+"we built it in between everything.",
+"it feels like it knows us.",
+"we didn’t need to fix it.",
+"it stayed real the whole time.",
+"we made something that doesn’t disappear.",
+"it grows without being seen.",
+"we kept it away from the noise.",
+"it lives in the spaces between.",
+"we didn’t need to chase it.",
+"it stayed because we did.",
+"we made it feel like it belongs.",
+"it holds even when we don’t.",
+"we didn’t let it go unnoticed.",
+"it became something we trust.",
+"we kept it ours without holding it too tight.",
+"it exists because we never left it behind.",
+"we made something that keeps returning.",
+"it stays, in the skies, with us.",
+
+        ];
+        // Fixed star positions
+        const stars = [
+            {x:0.15,y:0.2},{x:0.35,y:0.1},{x:0.6,y:0.18},{x:0.8,y:0.08},
+            {x:0.1,y:0.5},{x:0.3,y:0.45},{x:0.55,y:0.38},{x:0.75,y:0.55},
+            {x:0.2,y:0.75},{x:0.45,y:0.7},{x:0.65,y:0.8},{x:0.88,y:0.75},
+            {x:0.5,y:0.55},{x:0.92,y:0.4},{x:0.05,y:0.88},
+        ].map(s => ({ x: s.x * canvas.width, y: s.y * canvas.height, connected: false }));
+
+        let lines = [], lastStar = null;
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // lines
+            ctx.strokeStyle = 'rgba(207,170,110,0.35)';
+            ctx.lineWidth = 1;
+            lines.forEach(l => {
+                ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke();
+            });
+            // stars
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.connected ? 4 : 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = s.connected ? 'rgba(207,170,110,1)' : 'rgba(245,245,245,0.6)';
+                ctx.shadowBlur = s.connected ? 10 : 4;
+                ctx.shadowColor = 'rgba(207,170,110,0.8)';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+        }
+        draw();
+
+        const handleStarClick = (clientX, clientY) => {
+            const rect = canvas.getBoundingClientRect();
+            const mx = (clientX - rect.left) * (canvas.width / rect.width);
+            const my = (clientY - rect.top) * (canvas.height / rect.height);
+            let closest = null, minD = 40;
+            stars.forEach(s => {
+                const d = Math.hypot(s.x - mx, s.y - my);
+                if (d < minD) { minD = d; closest = s; }
+            });
+            if (!closest) return;
+            closest.connected = true;
+            if (lastStar) lines.push({ x1: lastStar.x, y1: lastStar.y, x2: closest.x, y2: closest.y });
+            lastStar = closest;
+            draw();
+            const connected = stars.filter(s => s.connected).length;
+            if (connected >= 5) {
+                const msg = document.getElementById('constellation-msg');
+                msg.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+                msg.classList.add('show');
+            }
+        };
+
+        canvas.addEventListener('click', e => handleStarClick(e.clientX, e.clientY));
+        canvas.addEventListener('touchstart', e => { e.preventDefault(); handleStarClick(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
+
+        document.getElementById('constellation-reset').addEventListener('click', () => {
+            lines = []; lastStar = null;
+            stars.forEach(s => s.connected = false);
+            document.getElementById('constellation-msg').classList.remove('show');
+            draw();
+        });
+
+        // Redraw on resize / orientation change
+        const starRatios = [
+            {x:0.15,y:0.2},{x:0.35,y:0.1},{x:0.6,y:0.18},{x:0.8,y:0.08},
+            {x:0.1,y:0.5},{x:0.3,y:0.45},{x:0.55,y:0.38},{x:0.75,y:0.55},
+            {x:0.2,y:0.75},{x:0.45,y:0.7},{x:0.65,y:0.8},{x:0.88,y:0.75},
+            {x:0.5,y:0.55},{x:0.92,y:0.4},{x:0.05,y:0.88},
+        ];
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                canvas.width  = wrap.offsetWidth;
+                canvas.height = wrap.offsetHeight;
+                // Reproject star positions to new dimensions
+                starRatios.forEach((r, i) => { stars[i].x = r.x * canvas.width; stars[i].y = r.y * canvas.height; });
+                // Reproject line endpoints proportionally
+                lines = lines.map(l => ({
+                    x1: (l.x1 / (canvas.width  || 1)) * canvas.width,
+                    y1: (l.y1 / (canvas.height || 1)) * canvas.height,
+                    x2: (l.x2 / (canvas.width  || 1)) * canvas.width,
+                    y2: (l.y2 / (canvas.height || 1)) * canvas.height,
+                }));
+                draw();
+            }, 150);
+        });
+    })();
+
+    // ---- SCRATCH CARD ----
+    (function() {
+        const canvas = document.getElementById('scratch-canvas');
+        const wrap = canvas.parentElement;
+        canvas.width = wrap.offsetWidth;
+        canvas.height = wrap.offsetHeight;
+        const ctx = canvas.getContext('2d');
+        // Fill with gold-tinted dark layer
+        const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        grad.addColorStop(0, '#1a1408');
+        grad.addColorStop(1, '#251d0a');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Hint text on scratch layer
+        ctx.fillStyle = 'rgba(207,170,110,0.5)';
+        ctx.font = '11px "Space Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('scratch here ✦', canvas.width / 2, canvas.height / 2 - 8);
+        ctx.fillText('something is waiting', canvas.width / 2, canvas.height / 2 + 10);
+
+        let scratching = false;
+        ctx.globalCompositeOperation = 'destination-out';
+
+        const scratch = (x, y) => {
+            ctx.beginPath();
+            ctx.arc(x, y, 22, 0, Math.PI * 2);
+            ctx.fill();
+        };
+
+        const getPos = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const src = e.touches ? e.touches[0] : e;
+            return {
+                x: (src.clientX - rect.left) * (canvas.width / rect.width),
+                y: (src.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        };
+
+        canvas.addEventListener('mousedown', e => { scratching = true; const p = getPos(e); scratch(p.x, p.y); });
+        canvas.addEventListener('mousemove', e => { if (!scratching) return; const p = getPos(e); scratch(p.x, p.y); });
+        canvas.addEventListener('mouseup', () => scratching = false);
+        canvas.addEventListener('touchstart', e => { e.preventDefault(); scratching = true; const p = getPos(e); scratch(p.x, p.y); });
+        canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!scratching) return; const p = getPos(e); scratch(p.x, p.y); });
+        canvas.addEventListener('touchend', () => scratching = false);
+    })();
+
+    // ---- POLAROID TAP-TO-UPLOAD (canvas compressed to stay under localStorage limit) ----
+    (function() {
+        const compressImage = (file, callback) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const MAX = 600;
+                    const scale = Math.min(MAX / img.width, MAX / img.height, 1);
+                    const cvs = document.createElement('canvas');
+                    cvs.width  = img.width  * scale;
+                    cvs.height = img.height * scale;
+                    cvs.getContext('2d').drawImage(img, 0, 0, cvs.width, cvs.height);
+                    callback(cvs.toDataURL('image/jpeg', 0.7));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        document.querySelectorAll('.polaroid-blank').forEach((label) => {
+            const input = label.querySelector('.polaroid-input');
+            const img   = label.querySelector('.polaroid-img');
+            const hint  = label.querySelector('.polaroid-hint');
+            const slot  = label.dataset.slot;
+            const key   = 'polaroid_img_' + slot;
+
+            // Restore saved image
+            try {
+                const saved = localStorage.getItem(key);
+                if (saved) { img.src = saved; img.style.display = 'block'; hint.style.display = 'none'; }
+            } catch(e) {}
+
+            input.addEventListener('change', () => {
+                const file = input.files[0];
+                if (!file) return;
+                compressImage(file, (compressed) => {
+                    img.src = compressed;
+                    img.style.display = 'block';
+                    hint.style.display = 'none';
+                    try { localStorage.setItem(key, compressed); } catch(e) {
+                        console.warn('Storage full — photo shown but not saved.');
+                    }
+                });
+            });
+        });
+    })();
+    </script>
+</body>
+</html>
