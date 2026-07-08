@@ -10,7 +10,7 @@ export const THINGS_I_NOTICED: string[] = [
   'How you always came back to me.',
   'Your sleepy expression as you walked in early that morning.',
   'The gulp you made after our first kiss.',
-  'How you closed your eyes after swallowing my spit.',
+  'How you looked at me after swallowing my spit.',
   'Your excitement when you found out I loved your chai.',
   'The way you concentrate while listening to me.',
   'Our first hug on that sofa, where you rested your head on my neck.',
