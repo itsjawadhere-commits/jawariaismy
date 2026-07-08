@@ -1806,6 +1806,12 @@ section.reveal,
   line-height: 1.8;
 }
 
+.journal-layout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .journal-form {
   width: 100%;
   display: flex;
@@ -1928,5 +1934,41 @@ section.reveal,
 
   .journal-card-actions {
     justify-content: center;
+  }
+}
+
+/* Laptop / desktop: form and entries side-by-side. Mobile stays untouched above. */
+@media (min-width: 900px) {
+  .journal-section {
+    max-width: 1100px;
+  }
+
+  .journal-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 3rem;
+  }
+
+  .journal-form {
+    flex: 0 0 380px;
+    margin-bottom: 0;
+    position: sticky;
+    top: 2rem;
+  }
+
+  .journal-entries {
+    flex: 1 1 auto;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-right: 0.6rem;
+  }
+
+  .journal-entries::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .journal-entries::-webkit-scrollbar-thumb {
+    background: rgba(207, 170, 110, 0.25);
+    border-radius: 10px;
   }
 }

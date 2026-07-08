@@ -193,6 +193,7 @@ export default function Journal() {
         this device unless you choose to let me read it too.
       </p>
 
+      <div className="journal-layout">
       <div className="journal-form">
         <textarea
           className="unsaid-textarea"
@@ -287,6 +288,7 @@ export default function Journal() {
             </div>
           ))
         )}
+      </div>
       </div>
     </section>
   );
