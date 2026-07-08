@@ -122,7 +122,7 @@ export default function UnsaidNotes() {
             className="memjar-btn"
             disabled={status === 'sending' || !message.trim()}
           >
-            {status === 'sending' ? 'sending…' : 'send it to him, quietly'}
+            {status === 'sending' ? 'sending…' : 'send it to me'}
           </button>
 
           {status === 'error' && (
