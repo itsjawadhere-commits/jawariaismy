@@ -852,13 +852,24 @@ h1.name {
   z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 2rem calc(50% - 100px) 3rem;
+}
+
+.frames-track::-webkit-scrollbar {
+  display: none;
 }
 
 .frame-item {
   position: relative;
   flex-shrink: 0;
   width: 200px;
+  scroll-snap-align: center;
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
   cursor: pointer;
 }
@@ -1085,11 +1096,15 @@ section.reveal,
   }
 
   .frame-item {
-    width: 130px;
+    width: 150px;
   }
 
   .frame-item:not(:first-child) {
-    margin-left: -24px;
+    margin-left: -26px;
+  }
+
+  .frames-track {
+    padding: 2rem calc(50% - 75px) 3rem;
   }
 
   .scratch-wrap {
@@ -1145,30 +1160,16 @@ section.reveal,
   }
 
   .frames-track {
-    justify-content: flex-start;
-    overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding: 0.5rem 20% 0.5rem 0;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .frames-track::-webkit-scrollbar {
-    display: none;
+    padding: 1.5rem calc(50% - 60px) 2.5rem;
   }
 
   .frame-item {
-    width: 150px;
-    scroll-snap-align: center;
+    width: 120px;
   }
 
   .frame-item:not(:first-child) {
-    margin-left: 14px;
-  }
-
-  .frame-item--side,
-  .frame-item--center {
-    transform: scale(1) rotate(0deg);
-    filter: none;
+    margin-left: -18px;
   }
 
   .timeline-entry p.serif {

@@ -1,25 +1,30 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 
-const FRAMES = [
-  { image: '/images/3.jpeg' },
-  { image: '/images/7.jpeg' },
-  { image: '/images/5.jpeg' },
-  
-];
+const TOTAL_IMAGES = 15;
+
+const FRAMES = Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
+  image: `/images/${i + 1}.jpeg`,
+}));
 
 const CENTER_INDEX = Math.floor((FRAMES.length - 1) / 2);
 
 function FrameItem({
   image,
   index,
-}: (typeof FRAMES)[0] & { index: number }) {
+  innerRef,
+}: (typeof FRAMES)[0] & {
+  index: number;
+  innerRef: (el: HTMLDivElement | null) => void;
+}) {
   const isCenter = index === CENTER_INDEX;
   const tilt = index < CENTER_INDEX ? '-6deg' : '6deg';
 
   return (
     <div
+      ref={innerRef}
       className={`frame-item ${isCenter ? 'frame-item--center' : 'frame-item--side'}`}
       style={{ '--tilt': tilt } as React.CSSProperties}
     >
@@ -28,7 +33,7 @@ function FrameItem({
           src={image}
           alt=""
           fill
-          sizes="(max-width: 480px) 40vw, (max-width: 768px) 30vw, 220px"
+          sizes="(max-width: 420px) 32vw, (max-width: 768px) 26vw, 220px"
           quality={70}
           className="frame-card-img"
         />
@@ -38,6 +43,17 @@ function FrameItem({
 }
 
 export default function ReservedFrames() {
+  const centerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // Start the deck centered on the hero frame — same feel on every screen size.
+    centerRef.current?.scrollIntoView({
+      behavior: 'auto',
+      inline: 'center',
+      block: 'nearest',
+    });
+  }, []);
+
   return (
     <section className="section-padding reveal">
       <p className="mono" style={{ marginBottom: '2rem' }}>
@@ -64,6 +80,9 @@ export default function ReservedFrames() {
               key={frame.image}
               index={index}
               {...frame}
+              innerRef={(el) => {
+                if (index === CENTER_INDEX) centerRef.current = el;
+              }}
             />
           ))}
         </div>
