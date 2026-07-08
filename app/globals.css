@@ -1792,3 +1792,141 @@ section.reveal,
     max-width: 45vw;
   }
 }
+
+/* ===================== JOURNAL ===================== */
+.journal-section {
+  align-items: flex-start;
+  text-align: left;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.journal-subtitle {
+  max-width: 520px;
+  line-height: 1.8;
+}
+
+.journal-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  margin-bottom: 3.5rem;
+}
+
+.journal-visibility-row {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.journal-entries {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.journal-empty {
+  opacity: 0.4;
+}
+
+.journal-card {
+  width: 100%;
+  border: 1px solid rgba(207, 170, 110, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 1.4rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.journal-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.journal-date {
+  opacity: 0.45;
+}
+
+.journal-badge {
+  border: 1px solid rgba(207, 170, 110, 0.3);
+  border-radius: 20px;
+  padding: 3px 10px;
+  opacity: 0.6;
+}
+
+.journal-badge.shared {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  opacity: 0.9;
+}
+
+.journal-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  opacity: 0.9;
+  white-space: pre-wrap;
+}
+
+.journal-card-actions {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.journal-link-btn {
+  background: none;
+  border: none;
+  font-family: var(--mono-font);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  color: var(--text-color);
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.journal-link-btn:hover {
+  opacity: 1;
+  color: var(--accent-gold);
+}
+
+.journal-send-status {
+  opacity: 0.45;
+  font-size: 0.68rem !important;
+}
+
+.journal-edit-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+@media (max-width: 700px) {
+  .journal-section {
+    align-items: center;
+    text-align: center;
+  }
+
+  .journal-form,
+  .journal-card-top,
+  .journal-visibility-row {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .journal-card-actions {
+    justify-content: center;
+  }
+}

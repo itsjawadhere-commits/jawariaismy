@@ -81,13 +81,14 @@ export default function UnsaidNotes() {
       >
         for the things you don&apos;t say out loud. a bad day, a complaint, something
         you&apos;re holding back, or just words on a day we&apos;re not talking.
-        write it here, it comes straight to me and only me.
+        write it here, it comes straight to me, and only me.
       </p>
 
       {status === 'sent' ? (
         <div className="unsaid-sent">
           <p className="serif unsaid-sent-text">
-            I have received it and I promise I will give it the attention it deserves. 
+            it&apos;s been sent. only I&apos;ll read it, and I&apos;ll take it
+            seriously, I promise.
           </p>
           <button className="memjar-btn" onClick={handleWriteAnother}>
             write another
@@ -122,7 +123,7 @@ export default function UnsaidNotes() {
             className="memjar-btn"
             disabled={status === 'sending' || !message.trim()}
           >
-            {status === 'sending' ? 'sending…' : 'send it to me'}
+            {status === 'sending' ? 'sending…' : 'send it to him, quietly'}
           </button>
 
           {status === 'error' && (
