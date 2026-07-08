@@ -1333,6 +1333,139 @@ section.reveal,
   }
 }
 
+.site-nav-secondary {
+  position: fixed;
+  left: 1.8rem;
+  top: 1.6rem;
+  z-index: 100;
+  display: flex;
+  pointer-events: none;
+}
+
+.site-nav-secondary .site-nav-link {
+  pointer-events: all;
+}
+
+@media (max-width: 700px) {
+  .site-nav-secondary {
+    left: 1rem;
+    top: 1rem;
+  }
+}
+
+/* ===================== UNSAID PAGE ===================== */
+.unsaid-section {
+  align-items: flex-start;
+  text-align: left;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.unsaid-subtitle {
+  max-width: 520px;
+  line-height: 1.8;
+}
+
+.unsaid-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.6rem;
+}
+
+.unsaid-tag-grid {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.unsaid-tag-btn {
+  background: transparent;
+  border: 1px solid rgba(207, 170, 110, 0.25);
+  color: var(--text-color);
+  padding: 8px 16px;
+  font-family: var(--mono-font);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.unsaid-tag-btn:hover,
+.unsaid-tag-btn.active {
+  border-color: var(--accent-gold);
+  background: rgba(207, 170, 110, 0.06);
+  color: var(--accent-gold);
+}
+
+.unsaid-textarea {
+  width: 100%;
+  min-height: 180px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(207, 170, 110, 0.25);
+  border-radius: 12px;
+  padding: 1.2rem;
+  color: var(--text-color);
+  font-family: var(--serif-font);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.unsaid-textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.unsaid-textarea::placeholder {
+  color: var(--text-color);
+  opacity: 0.35;
+  font-style: italic;
+}
+
+.unsaid-error {
+  font-family: var(--mono-font);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  color: var(--accent-gold);
+}
+
+.unsaid-sent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.6rem;
+  max-width: 480px;
+}
+
+.unsaid-sent-text {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+@media (max-width: 700px) {
+  .unsaid-section {
+    align-items: center;
+    text-align: center;
+  }
+
+  .unsaid-form,
+  .unsaid-sent {
+    align-items: center;
+  }
+
+  .unsaid-tag-grid {
+    justify-content: center;
+  }
+}
+
 /* ===================== LETTERS & POEMS PAGE ===================== */
 .lp-envelope-outer {
   width: min(560px, 90vw);
