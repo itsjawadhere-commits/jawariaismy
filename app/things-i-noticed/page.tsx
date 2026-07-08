@@ -8,7 +8,7 @@ export default function ThingsINoticed() {
       <RevealObserver />
       <MemoryJar />
       <footer className="section-padding" style={{ minHeight: 'auto', paddingTop: '2vh' }}>
-        <p className="mono">still noticing new things about you, every day</p>
+        <p className="mono">cannot wait to meet you again to notice more things</p>
       </footer>
     </MainContent>
   );
