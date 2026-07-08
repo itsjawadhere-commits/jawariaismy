@@ -4,6 +4,8 @@ import CustomCursor from './components/CustomCursor';
 import ScrollThread from './components/ScrollThread';
 import Nav from './components/Nav';
 import BackToTop from './components/BackToTop';
+import AmbientParticles from './components/AmbientParticles';
+import BackgroundMusic from './components/BackgroundMusic';
 
 export const metadata: Metadata = {
   title: '31 March | Jawaria',
@@ -39,10 +41,12 @@ export default function RootLayout({
       <body>
         <CustomCursor />
         <Nav />
+        <AmbientParticles />
         <div className="grain" />
         <ScrollThread />
         {children}
         <BackToTop />
+        <BackgroundMusic />
       </body>
     </html>
   );

@@ -110,6 +110,15 @@ body {
   will-change: transform;
 }
 
+/* ===================== AMBIENT BACKGROUND PARTICLES ===================== */
+#ambient-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+}
+
 /* ===================== GRAIN OVERLAY ===================== */
 .grain {
   position: fixed;
@@ -1214,6 +1223,54 @@ section.reveal,
     height: 38px;
     right: 1.1rem;
     bottom: 1.1rem;
+  }
+}
+
+/* ===================== BACKGROUND MUSIC TOGGLE ===================== */
+.music-toggle {
+  position: fixed;
+  right: 1.8rem;
+  bottom: 5.4rem;
+  z-index: 100;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(207, 170, 110, 0.35);
+  background: rgba(3, 3, 3, 0.6);
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.music-toggle.visible {
+  opacity: 0.85;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.music-toggle:hover {
+  opacity: 1;
+  border-color: rgba(207, 170, 110, 0.7);
+  background: rgba(3, 3, 3, 0.85);
+}
+
+.music-toggle.is-muted {
+  color: rgba(245, 245, 245, 0.45);
+  border-color: rgba(245, 245, 245, 0.2);
+}
+
+@media (max-width: 700px) {
+  .music-toggle {
+    width: 38px;
+    height: 38px;
+    right: 1.1rem;
+    bottom: 4.6rem;
   }
 }
 
