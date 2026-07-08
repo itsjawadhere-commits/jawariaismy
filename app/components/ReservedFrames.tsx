@@ -59,7 +59,7 @@ export default function ReservedFrames() {
       <p
         className="serif"
         style={{
-          maxWidth: 500,
+          maxWidth: 720,
           opacity: 0.8,
           fontSize: '1.2rem',
           marginBottom: '3rem',

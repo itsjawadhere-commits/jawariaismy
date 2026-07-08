@@ -9,6 +9,19 @@
   --accent-gold: #cfaa6e;
   --serif-font: 'Cormorant Garamond', serif;
   --mono-font: 'Space Mono', monospace;
+
+  /* ---- Spacing rhythm: shared by every full section so nothing feels tighter/looser than its neighbors ---- */
+  --section-py: clamp(6rem, 12vh, 9rem);
+  --section-px: clamp(1.5rem, 8vw, 4rem);
+  --section-gap: clamp(3rem, 8vh, 5rem);
+
+  /* ---- Readable text measure, used across paragraphs, letters, and envelopes ---- */
+  --content-max-width: 760px;
+
+  /* ---- Soft, layered depth for cards / notes / envelopes ---- */
+  --card-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.28), 0 20px 48px -18px rgba(0, 0, 0, 0.45), 0 2px 28px -6px rgba(207, 170, 110, 0.08);
+  --card-shadow-hover: 0 6px 16px -4px rgba(0, 0, 0, 0.32), 0 26px 60px -16px rgba(0, 0, 0, 0.5), 0 4px 36px -6px rgba(207, 170, 110, 0.16);
+  --card-blur: blur(10px);
 }
 
 /* ===================== BASE / RESET ===================== */
@@ -74,12 +87,19 @@ body {
 /* ===================== LAYOUT ===================== */
 .section-padding {
   min-height: 100vh;
-  padding: 10vh 10%;
+  padding: var(--section-py) var(--section-px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+/* Shared text measure for anything meant to be read as prose */
+.section-padding p.serif,
+.lp-envelope-letter,
+.envelope-letter {
+  max-width: min(var(--content-max-width), 90vw);
 }
 
 /* ===================== MAIN CONTENT REVEAL ===================== */
@@ -160,7 +180,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 10vh 8%;
+  padding: var(--section-py) var(--section-px);
   position: relative;
 }
 
@@ -434,6 +454,9 @@ h1.name {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
 }
 
 .jar-lid {
@@ -507,7 +530,7 @@ h1.name {
 
 .envelope-wrap {
   position: relative;
-  width: min(560px, 90vw);
+  width: min(var(--content-max-width), 90vw);
   margin: 2rem auto;
   cursor: none;
 }
@@ -516,12 +539,16 @@ h1.name {
   width: 100%;
   border: 1px solid rgba(207, 170, 110, 0.3);
   background: rgba(207, 170, 110, 0.03);
+  border-radius: 6px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.5s ease;
+  transition: box-shadow 0.5s ease, border-color 0.5s ease, background 0.5s ease;
   min-height: 180px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
 }
 
 .envelope-wrap.open .envelope-body {
@@ -725,7 +752,7 @@ h1.name {
 /* ===================== SCATTERED NOTES ===================== */
 .scattered-section {
   min-height: 100vh;
-  padding: 8vh 5%;
+  padding: var(--section-py) var(--section-px);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -773,6 +800,7 @@ h1.name {
   border-radius: 12px;
   overflow: hidden;
   cursor: none;
+  box-shadow: var(--card-shadow);
 }
 
 #scratch-canvas {
@@ -794,6 +822,9 @@ h1.name {
   border: 1px solid rgba(207, 170, 110, 0.2);
   border-radius: 12px;
   padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
 }
 
 .scratch-reveal p {
@@ -826,14 +857,17 @@ h1.name {
   border: 1px solid rgba(207,170,110,.2);
   padding: 15px 15px 40px;
   width: 220px;
-  transition: .4s ease;
+  transition: .4s ease, box-shadow .4s ease;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
   cursor: none;
 }
 
 .polaroid:hover {
   transform: translateY(-10px) rotate(0deg) !important;
   border-color: var(--accent-gold);
-  box-shadow: 0 10px 30px rgba(207,170,110,.12);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .polaroid-blank {
@@ -958,10 +992,37 @@ footer {
 }
 
 /* ===================== REVEAL ANIMATION (cross-component) ===================== */
+/* Sections tagged .reveal fade + slide in as they enter the viewport.
+   RevealObserver adds the .visible class via IntersectionObserver. */
 section.reveal,
 .reveal {
-  /* sections tagged .reveal use the timeline-entry visibility pattern
-     but at the section level we just hook IntersectionObserver in JS  */
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+section.reveal.visible,
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section.reveal,
+  .reveal,
+  .chapter-numeral,
+  .chapter-title,
+  .chapter-epigraph,
+  .chapter-line,
+  .timeline-entry,
+  .trait-item {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 /* ===================== MOBILE RESPONSIVE ===================== */
@@ -1258,7 +1319,7 @@ section.reveal,
 
 /* ===================== LETTERS & POEMS PAGE ===================== */
 .lp-envelope-outer {
-  width: min(560px, 90vw);
+  width: min(var(--content-max-width), 90vw);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1281,12 +1342,20 @@ section.reveal,
   width: 100%;
   border: 1px solid rgba(207, 170, 110, 0.3);
   background: rgba(207, 170, 110, 0.03);
+  border-radius: 6px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 120px;
-  transition: border-color 0.4s ease, background 0.4s ease;
+  transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
+}
+
+.lp-envelope-wrap:hover .lp-envelope-body {
+  box-shadow: var(--card-shadow-hover);
 }
 
 .lp-envelope-wrap:hover .lp-envelope-body {
@@ -1370,7 +1439,7 @@ section.reveal,
 /* ===================== MEMORY JAR (Things I Noticed) ===================== */
 .memjar-section {
   min-height: auto;
-  padding: 12vh 8% 10vh;
+  padding: var(--section-py) var(--section-px);
 }
 
 .memjar-illustration {
@@ -1487,7 +1556,7 @@ section.reveal,
   color: #2b2113;
   border-radius: 4px;
   padding: 2rem 1.8rem 1.6rem;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.3), 0 18px 40px -14px rgba(0, 0, 0, 0.4);
   transform-origin: top center;
   transform: translateY(24px) scale(0.92);
   opacity: 0;
