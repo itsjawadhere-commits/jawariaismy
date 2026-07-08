@@ -4,19 +4,19 @@ const FRAMES = [
   {
     rotate: '-2deg',
     marginTop: '0px',
-    caption: 'About Us.',
+    caption: 'Us',
     image: '/images/about-us.jpeg',
   },
   {
     rotate: '3deg',
     marginTop: '20px',
-    caption: "That one blurry selfie we'll take.",
+    caption: "One blurry selfie",
     image: '/images/blurry-selfie.jpeg',
   },
   {
     rotate: '-1deg',
     marginTop: '0px',
-    caption: 'You, looking pretty.',
+    caption: 'You looking pretty',
     image: '/images/pretty.jpeg',
   },
 ];
