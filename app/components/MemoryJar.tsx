@@ -105,7 +105,7 @@ export default function MemoryJar() {
 
   return (
     <section className="section-padding reveal memjar-section">
-      <p className="mono" style={{ marginBottom: '0.5rem' }}>a jar full of small things</p>
+      <p className="mono" style={{ marginBottom: '0.5rem' }}>our first date </p>
       <h2
         className="serif"
         style={{
