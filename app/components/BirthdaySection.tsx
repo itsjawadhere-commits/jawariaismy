@@ -30,7 +30,7 @@ export default function BirthdaySection() {
         </h2>
         <p
           className="serif"
-          style={{ maxWidth: 720, marginBottom: '2rem', fontSize: '1.2rem', textAlign: 'justify', marginLeft: 'auto' }}
+          style={{ maxWidth: 600, marginBottom: '2rem', fontSize: '1.2rem', textAlign: 'justify', marginLeft: 'auto' }}
         >
           Today feels like the world paused for a second just to make space for you and somehow
           i&apos;m the lucky one, existing in the same timeline, breathing the same air, getting
@@ -39,7 +39,7 @@ export default function BirthdaySection() {
         </p>
         <p
           className="serif"
-          style={{ maxWidth: 720, marginBottom: '2rem', fontSize: '1.2rem', textAlign: 'justify', marginLeft: 'auto' }}
+          style={{ maxWidth: 600, marginBottom: '2rem', fontSize: '1.2rem', textAlign: 'justify', marginLeft: 'auto' }}
         >
           But this year, i don&apos;t want to love you on autopilot really. i want to love you
           with intention to notice the small things i might&apos;ve missed, the shifts in your
@@ -48,7 +48,7 @@ export default function BirthdaySection() {
         </p>
         <p
           className="serif"
-          style={{ maxWidth: 720, marginBottom: '2rem', fontSize: '1.2rem', textAlign: 'justify', marginLeft: 'auto' }}
+          style={{ maxWidth: 600, marginBottom: '2rem', fontSize: '1.2rem', textAlign: 'justify', marginLeft: 'auto' }}
         >
           I want to learn your silences the way people learn songs, to be the place you come to
           when everything feels heavy and the reason you smile when it suddenly doesn&apos;t. and
@@ -58,7 +58,7 @@ export default function BirthdaySection() {
         </p>
         <p
           className="serif"
-          style={{ maxWidth: 720, fontSize: '1.2rem', textAlign: 'justify', marginLeft: 'auto' }}
+          style={{ maxWidth: 600, fontSize: '1.2rem', textAlign: 'justify', marginLeft: 'auto' }}
         >
           and just so you know, i do plan on annoying you consistently this year too but just in a
           more thoughtful, premium kind of way because you&apos;re not just someone in my life,

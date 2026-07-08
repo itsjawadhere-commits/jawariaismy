@@ -103,7 +103,7 @@ export default function AudioPlayer() {
         {/* Place your audio file at public/Audio Note.mp4 */}
         <audio id="voice-note" ref={audioRef} src="/Audio%20Note.mp4" />
       </div>
-      <p className="serif" style={{ maxWidth: 720, opacity: 0.8, fontSize: '1.2rem', marginTop: '2rem' }}>
+      <p className="serif" style={{ maxWidth: 500, opacity: 0.8, fontSize: '1.2rem', marginTop: '2rem' }}>
         Some things are better heard than read.
       </p>
     </section>

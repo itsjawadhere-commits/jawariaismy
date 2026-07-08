@@ -4,19 +4,19 @@ const FRAMES = [
   {
     rotate: '-2deg',
     marginTop: '0px',
-    caption: 'Us',
+    caption: 'About Us.',
     image: '/images/about-us.jpeg',
   },
   {
     rotate: '3deg',
     marginTop: '20px',
-    caption: "One blurry selfie",
+    caption: "That one blurry selfie we'll take.",
     image: '/images/blurry-selfie.jpeg',
   },
   {
     rotate: '-1deg',
     marginTop: '0px',
-    caption: 'You looking pretty',
+    caption: 'You, looking pretty.',
     image: '/images/pretty.jpeg',
   },
 ];
@@ -59,7 +59,7 @@ export default function ReservedFrames() {
       <p
         className="serif"
         style={{
-          maxWidth: 720,
+          maxWidth: 500,
           opacity: 0.8,
           fontSize: '1.2rem',
           marginBottom: '3rem',
