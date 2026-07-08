@@ -87,8 +87,7 @@ export default function UnsaidNotes() {
       {status === 'sent' ? (
         <div className="unsaid-sent">
           <p className="serif unsaid-sent-text">
-            it&apos;s been sent, quietly. only I&apos;ll read it, and I&apos;ll take it
-            seriously — I promise.
+            I have received it and I promise I will give it the attention it deserves. 
           </p>
           <button className="memjar-btn" onClick={handleWriteAnother}>
             write another
