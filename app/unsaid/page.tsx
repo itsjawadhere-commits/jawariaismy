@@ -10,7 +10,7 @@ export default function Unsaid() {
       <UnsaidNotes />
       <Journal />
       <footer className="section-padding" style={{ minHeight: 'auto', paddingTop: '2vh' }}>
-        <p className="mono">whatever it is, it reaches me. always.</p>
+        <p className="mono">a safe space for you. always.</p>
       </footer>
     </MainContent>
   );
