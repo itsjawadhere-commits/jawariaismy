@@ -817,60 +817,39 @@ h1.name {
   gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 900px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .polaroid {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(207, 170, 110, 0.2);
-  padding: 15px 15px 40px 15px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(207,170,110,.2);
+  padding: 15px 15px 40px;
   width: 220px;
-  transition: 0.4s ease;
+  transition: .4s ease;
   cursor: none;
 }
 
 .polaroid:hover {
   transform: translateY(-10px) rotate(0deg) !important;
   border-color: var(--accent-gold);
-  box-shadow: 0 10px 30px rgba(207, 170, 110, 0.1);
+  box-shadow: 0 10px 30px rgba(207,170,110,.12);
 }
 
 .polaroid-blank {
   width: 100%;
   height: 200px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 15px;
+  border: 1px dashed rgba(255,255,255,.08);
   background: repeating-linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0.02) 10px,
-    rgba(0, 0, 0, 0) 10px,
-    rgba(0, 0, 0, 0) 20px
+    rgba(255,255,255,.02),
+    rgba(255,255,255,.02) 10px,
+    transparent 10px,
+    transparent 20px
   );
-  border: 1px dashed rgba(255, 255, 255, 0.1);
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: border-color 0.3s;
-}
-
-.polaroid-blank:hover {
-  border-color: rgba(207, 170, 110, 0.4);
-}
-
-.polaroid-hint {
-  font-family: var(--mono-font);
-  font-size: 0.65rem;
-  color: var(--accent-gold);
-  opacity: 0.4;
-  letter-spacing: 0.08em;
-  transition: opacity 0.3s;
-}
-
-.polaroid-blank:hover .polaroid-hint {
-  opacity: 0.7;
 }
 
 .polaroid-img {
@@ -880,38 +859,30 @@ h1.name {
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
-  object-fit: contain;
-  background: rgba(0, 0, 0, 0.15);
+  object-fit: cover;
 }
 
-.polaroid-remove {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.55);
-  color: #fff;
-  font-size: 0.7rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+@media (max-width: 768px) {
 
-.polaroid-blank:hover .polaroid-remove {
-  opacity: 1;
-}
+  .polaroid-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
 
-.polaroid .caption {
-  font-size: 1rem;
-  color: var(--accent-gold);
-  opacity: 0.8;
+  .polaroid {
+    width: min(82vw, 320px);
+    padding: 18px 18px 46px;
+  }
+
+  .polaroid-blank {
+    height: 330px;
+  }
+
+  .caption {
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
 }
 
 /* ===================== AUDIO PLAYER ===================== */
