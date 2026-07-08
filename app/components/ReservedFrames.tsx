@@ -1,50 +1,38 @@
 'use client';
 
+import Image from 'next/image';
+
 const FRAMES = [
-  {
-    rotate: '-2deg',
-    marginTop: '0px',
-    caption: 'About Us.',
-    image: '/images/about-us.jpeg',
-  },
-  {
-    rotate: '3deg',
-    marginTop: '20px',
-    caption: "That one blurry selfie we'll take.",
-    image: '/images/blurry-selfie.jpeg',
-  },
-  {
-    rotate: '-1deg',
-    marginTop: '0px',
-    caption: 'You, looking pretty.',
-    image: '/images/pretty.jpeg',
-  },
+  { image: '/images/3.jpeg' },
+  { image: '/images/7.jpeg' },
+  { image: '/images/5.jpeg' },
+  
 ];
 
-function PolaroidFrame({
-  rotate,
-  marginTop,
-  caption,
+const CENTER_INDEX = Math.floor((FRAMES.length - 1) / 2);
+
+function FrameItem({
   image,
-}: (typeof FRAMES)[0]) {
+  index,
+}: (typeof FRAMES)[0] & { index: number }) {
+  const isCenter = index === CENTER_INDEX;
+  const tilt = index < CENTER_INDEX ? '-6deg' : '6deg';
+
   return (
     <div
-      className="polaroid"
-      style={{
-        transform: `rotate(${rotate})`,
-        marginTop,
-      }}
+      className={`frame-item ${isCenter ? 'frame-item--center' : 'frame-item--side'}`}
+      style={{ '--tilt': tilt } as React.CSSProperties}
     >
-      <div className="polaroid-blank">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      <div className="frame-card">
+        <Image
           src={image}
-          alt={caption}
-          className="polaroid-img"
+          alt=""
+          fill
+          sizes="(max-width: 480px) 40vw, (max-width: 768px) 30vw, 220px"
+          quality={70}
+          className="frame-card-img"
         />
       </div>
-
-      <p className="serif caption">{caption}</p>
     </div>
   );
 }
@@ -53,7 +41,7 @@ export default function ReservedFrames() {
   return (
     <section className="section-padding reveal">
       <p className="mono" style={{ marginBottom: '2rem' }}>
-        Reserved Frames
+        Kept, Not Taken
       </p>
 
       <p
@@ -68,13 +56,17 @@ export default function ReservedFrames() {
         Moments which were dreams once.
       </p>
 
-      <div className="polaroid-grid">
-        {FRAMES.map((frame) => (
-          <PolaroidFrame
-            key={frame.caption}
-            {...frame}
-          />
-        ))}
+      <div className="frames-wrap">
+        <div className="frames-glow" aria-hidden="true" />
+        <div className="frames-track">
+          {FRAMES.map((frame, index) => (
+            <FrameItem
+              key={frame.image}
+              index={index}
+              {...frame}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
