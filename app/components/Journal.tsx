@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { sendToPartner as sendFieldsToPartner } from '../lib/sendToPartner';
 
 type Visibility = 'private' | 'shared';
 type SendStatus = 'sent' | 'pending' | 'error';
@@ -59,24 +60,12 @@ function formatDate(iso: string) {
 }
 
 async function sendToPartner(text: string): Promise<boolean> {
-  try {
-    const res = await fetch('https://formsubmit.co/ajax/itsjawadhere@gmail.com', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        _subject: 'a page from her journal',
-        _template: 'box',
-        type: 'journal entry (shared)',
-        message: text,
-      }),
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
+  return sendFieldsToPartner({
+    _subject: 'a page from her journal',
+    _template: 'box',
+    type: 'journal entry (shared)',
+    message: text,
+  });
 }
 
 export default function Journal() {
@@ -280,7 +269,18 @@ export default function Journal() {
                     <p className="mono journal-send-status">
                       {entry.sendStatus === 'pending' && 'sending to him…'}
                       {entry.sendStatus === 'sent' && 'delivered to him'}
-                      {entry.sendStatus === 'error' && "couldn't reach him — still saved here"}
+                      {entry.sendStatus === 'error' && (
+                        <>
+                          couldn&apos;t reach him — still saved here, or{' '}
+                          <a
+                            href={`mailto:itsjawadhere@gmail.com?subject=${encodeURIComponent(
+                              'a page from her journal'
+                            )}&body=${encodeURIComponent(entry.text)}`}
+                          >
+                            email it directly
+                          </a>
+                        </>
+                      )}
                     </p>
                   )}
                 </>

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { sendToPartner } from '../lib/sendToPartner';
 
 type Tag = 'complaint' | 'venting' | 'quiet-days' | 'just-because';
 
@@ -18,40 +19,74 @@ const TAG_LABELS: Record<Tag, string> = {
   'just-because': 'just because',
 };
 
-type Status = 'idle' | 'sending' | 'sent' | 'error';
+type Status = 'idle' | 'sending' | 'sent' | 'error' | 'offline';
+
+const DRAFT_KEY = 'unsaid_draft_unsent';
 
 export default function UnsaidNotes() {
   const [tag, setTag] = useState<Tag | null>(null);
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<Status>('idle');
 
+  // If a previous send failed (e.g. she closed the tab on a bad connection),
+  // recover the unsent draft so it's never lost.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved) as { message: string; tag: Tag | null };
+        if (parsed.message) {
+          setMessage(parsed.message);
+          setTag(parsed.tag ?? null);
+          setStatus('error');
+        }
+      }
+    } catch {
+      // ignore — nothing to recover
+    }
+  }, []);
+
+  const persistDraft = (msg: string, t: Tag | null) => {
+    try {
+      if (msg.trim()) {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ message: msg, tag: t }));
+      } else {
+        localStorage.removeItem(DRAFT_KEY);
+      }
+    } catch {
+      // localStorage unavailable — send will still be attempted, just without
+      // a local safety net
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim() || status === 'sending') return;
 
+    // Save locally first — no matter what happens with the network, this
+    // message is not lost.
+    persistDraft(message, tag);
+
+    if (typeof navigator !== 'undefined' && 'onLine' in navigator && !navigator.onLine) {
+      setStatus('offline');
+      return;
+    }
+
     setStatus('sending');
 
-    try {
-      const res = await fetch('https://formsubmit.co/ajax/itsjawadhere@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          _subject: 'a note, just for you',
-          _template: 'box',
-          type: tag ? TAG_LABELS[tag] : 'not specified',
-          message,
-        }),
-      });
+    const ok = await sendToPartner({
+      _subject: 'a note, just for you',
+      _template: 'box',
+      type: tag ? TAG_LABELS[tag] : 'not specified',
+      message,
+    });
 
-      if (!res.ok) throw new Error('failed to send');
-
+    if (ok) {
+      persistDraft('', null);
       setStatus('sent');
       setMessage('');
       setTag(null);
-    } catch {
+    } else {
       setStatus('error');
     }
   };
@@ -127,7 +162,23 @@ export default function UnsaidNotes() {
 
           {status === 'error' && (
             <p className="unsaid-error">
-              something went wrong sending that. please try again in a bit.
+              something went wrong sending that — but what you wrote is safely
+              saved right here, nothing is lost. try again whenever you&apos;re ready,
+              or{' '}
+              <a
+                href={`mailto:itsjawadhere@gmail.com?subject=${encodeURIComponent(
+                  'a note, just for you'
+                )}&body=${encodeURIComponent(message)}`}
+              >
+                email it directly instead
+              </a>
+              .
+            </p>
+          )}
+          {status === 'offline' && (
+            <p className="unsaid-error">
+              looks like there&apos;s no internet connection right now. what you
+              wrote is saved here — reconnect and hit send again.
             </p>
           )}
         </form>
