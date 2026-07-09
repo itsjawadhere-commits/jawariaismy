@@ -61,8 +61,7 @@ function formatDate(iso: string) {
 
 async function sendToPartner(text: string): Promise<boolean> {
   return sendFieldsToPartner({
-    _subject: 'a page from her journal',
-    _template: 'box',
+    subject: 'a page from her journal',
     type: 'journal entry (shared)',
     message: text,
   });

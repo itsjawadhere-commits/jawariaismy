@@ -1,29 +1,26 @@
 /**
- * Reliable submit helper for FormSubmit.co.
+ * Reliable submit helper — sends messages to the partner's inbox via
+ * Web3Forms (https://web3forms.com).
  *
- * Why this exists:
- * The old code POSTed JSON with `Content-Type: application/json`. That content
- * type is NOT on the CORS "simple request" list, so the browser is forced to
- * send an extra OPTIONS preflight request before every submission. Some mobile
- * browsers / in-app webviews (WhatsApp, Instagram, etc.) and flaky mobile data
- * connections handle that preflight poorly, causing sends to silently hang or
- * fail — while the same request works fine on a laptop with a stable wifi
- * connection. There was also no timeout, so a stalled request would spin
- * forever with no feedback to the user.
+ * History: this used to POST to FormSubmit.co. That service turned out to be
+ * unreliable — requests would hang with no response for 12+ seconds and
+ * never resolve, which outage trackers confirmed was a known, recurring
+ * problem with FormSubmit itself, not this code. Web3Forms is a more
+ * dependable alternative built specifically for this "static site sends
+ * straight to an inbox" use case, and its API is designed for JSON fetch
+ * calls (no CORS/preflight quirks to work around).
  *
- * This version:
- *  - Sends `application/x-www-form-urlencoded` data, which IS a CORS-simple
- *    content type, so no preflight is needed. Works consistently across
- *    mobile networks, in-app browsers, and desktop.
- *  - Has a hard timeout (via AbortController) so it never hangs indefinitely.
- *  - Retries automatically a couple of times with a short delay before
- *    giving up, since mobile networks can have transient blips.
- *  - Fails soft: callers are expected to save the message locally (or leave
- *    it in the input) BEFORE calling this, so nothing is ever lost even if
- *    every attempt fails.
+ * This helper still keeps the reliability layer on top, since any network
+ * call can have a bad day:
+ *  - A hard timeout (via AbortController) so a request never hangs forever.
+ *  - A couple of automatic retries with a short backoff before giving up.
+ *  - Fails soft: callers should save the message locally (or leave it in the
+ *    input) BEFORE calling this, so nothing is ever lost even if every
+ *    attempt fails.
  */
 
-const ENDPOINT = 'https://formsubmit.co/ajax/itsjawadhere@gmail.com';
+const ENDPOINT = 'https://api.web3forms.com/submit';
+const ACCESS_KEY = '530eb8db-bfcd-47a8-a5ad-4067b3073ae1';
 
 type SendFields = Record<string, string>;
 
@@ -32,19 +29,30 @@ async function attemptSend(fields: SendFields, timeoutMs: number): Promise<boole
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    const body = new URLSearchParams(fields);
-
     const res = await fetch(ENDPOINT, {
       method: 'POST',
-      // No explicit Content-Type header here — the browser sets
-      // "application/x-www-form-urlencoded" automatically for a
-      // URLSearchParams body, which keeps this a CORS-simple request
-      // (no preflight OPTIONS round-trip required).
-      body,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        access_key: ACCESS_KEY,
+        ...fields,
+      }),
       signal: controller.signal,
     });
 
-    return res.ok;
+    if (!res.ok) return false;
+
+    // Web3Forms returns { success: true/false, message: "..." } — trust that
+    // field when present rather than just the HTTP status.
+    try {
+      const data = await res.json();
+      return data?.success !== false;
+    } catch {
+      // Body wasn't JSON for some reason, but the request itself succeeded.
+      return true;
+    }
   } catch {
     return false;
   } finally {

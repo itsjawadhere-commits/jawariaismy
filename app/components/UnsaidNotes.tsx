@@ -75,8 +75,7 @@ export default function UnsaidNotes() {
     setStatus('sending');
 
     const ok = await sendToPartner({
-      _subject: 'a note, just for you',
-      _template: 'box',
+      subject: 'a note, just for you',
       type: tag ? TAG_LABELS[tag] : 'not specified',
       message,
     });
