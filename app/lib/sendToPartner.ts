@@ -1,58 +1,51 @@
 /**
- * Reliable submit helper — sends messages to the partner's inbox via
- * Web3Forms (https://web3forms.com).
+ * Reliable "send" helper — saves messages directly into the `messages`
+ * table in Supabase, rather than relaying them through an email service.
  *
- * History: this used to POST to FormSubmit.co. That service turned out to be
- * unreliable — requests would hang with no response for 12+ seconds and
- * never resolve, which outage trackers confirmed was a known, recurring
- * problem with FormSubmit itself, not this code. Web3Forms is a more
- * dependable alternative built specifically for this "static site sends
- * straight to an inbox" use case, and its API is designed for JSON fetch
- * calls (no CORS/preflight quirks to work around).
+ * History: this used to POST to FormSubmit.co, then to Web3Forms, hoping an
+ * email-relay service would reliably forward the message. Both approaches
+ * put a third-party mail relay in the critical path — if that service has a
+ * bad day, the message is at risk. Writing straight to a database this app
+ * owns removes that dependency entirely: there's no email step that can
+ * fail, so nothing is ever lost because of a third-party outage.
  *
- * This helper still keeps the reliability layer on top, since any network
- * call can have a bad day:
- *  - A hard timeout (via AbortController) so a request never hangs forever.
+ * Reliability layer kept from before, since any network call can still have
+ * a bad moment (a dropped mobile connection, etc.):
+ *  - A hard timeout so a request never hangs forever.
  *  - A couple of automatic retries with a short backoff before giving up.
  *  - Fails soft: callers should save the message locally (or leave it in the
  *    input) BEFORE calling this, so nothing is ever lost even if every
- *    attempt fails.
+ *    attempt fails — the person can always retry later.
  */
 
-const ENDPOINT = 'https://api.web3forms.com/submit';
-const ACCESS_KEY = '530eb8db-bfcd-47a8-a5ad-4067b3073ae1';
+import { getSupabaseBrowserClient } from './supabaseClient';
 
-type SendFields = Record<string, string>;
+type SendFields = {
+  source: 'unsaid' | 'journal';
+  type?: string;
+  message: string;
+};
 
 async function attemptSend(fields: SendFields, timeoutMs: number): Promise<boolean> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    const res = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        access_key: ACCESS_KEY,
-        ...fields,
-      }),
-      signal: controller.signal,
-    });
+    const supabase = getSupabaseBrowserClient();
 
-    if (!res.ok) return false;
+    const { error } = await supabase
+      .from('messages')
+      .insert(
+        {
+          source: fields.source,
+          tag: fields.type ?? null,
+          message: fields.message,
+        },
+        { count: 'exact' }
+      )
+      .abortSignal(controller.signal);
 
-    // Web3Forms returns { success: true/false, message: "..." } — trust that
-    // field when present rather than just the HTTP status.
-    try {
-      const data = await res.json();
-      return data?.success !== false;
-    } catch {
-      // Body wasn't JSON for some reason, but the request itself succeeded.
-      return true;
-    }
+    return !error;
   } catch {
     return false;
   } finally {
@@ -65,7 +58,7 @@ function delay(ms: number) {
 }
 
 /**
- * Sends fields to the partner inbox. Retries a couple of times on failure
+ * Saves a message to the shared inbox. Retries a couple of times on failure
  * (e.g. a dropped mobile connection) before reporting failure to the caller.
  */
 export async function sendToPartner(
