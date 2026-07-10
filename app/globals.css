@@ -1007,10 +1007,32 @@ footer {
 }
 
 /* ===================== REVEAL ANIMATION (cross-component) ===================== */
+/* Sections tagged .reveal are observed by RevealObserver.tsx, which adds
+   .visible once they scroll into view. Motion matches the same fade +
+   rise language already used for .timeline-entry and the chapter dividers
+   elsewhere in this file, including the same signature easing curve, so
+   scrolling through the page feels like one consistent piece of motion
+   design rather than a mix of animated and un-animated sections. */
 section.reveal,
 .reveal {
-  /* sections tagged .reveal use the timeline-entry visibility pattern
-     but at the section level we just hook IntersectionObserver in JS  */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+section.reveal.visible,
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section.reveal,
+  .reveal {
+    transition: opacity 0.3s ease;
+    transform: none;
+  }
 }
 
 /* ===================== MOBILE RESPONSIVE ===================== */
