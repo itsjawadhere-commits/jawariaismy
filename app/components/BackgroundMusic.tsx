@@ -109,6 +109,34 @@ export default function BackgroundMusic() {
     };
   }, []);
 
+  const wasPlayingBeforeHiddenRef = useRef(false);
+
+  // Pause whenever the page isn't the one being looked at — covers both
+  // switching tabs on desktop and the app being minimized/backgrounded or
+  // the screen being locked on mobile, since all of those fire the same
+  // visibilitychange event with document.hidden === true. Resume only if
+  // it was actually playing (not muted-and-stopped, not still waiting on
+  // the first-interaction gate) when it got hidden.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        wasPlayingBeforeHiddenRef.current = !audio.paused;
+        audio.pause();
+      } else if (wasPlayingBeforeHiddenRef.current) {
+        audio.play().catch(() => {
+          // If the browser still blocks it, just leave it paused — the
+          // mute/unmute button or the next interaction will pick it back up.
+        });
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
+
   const toggleMute = () => setIsMuted((m) => !m);
 
   return (
