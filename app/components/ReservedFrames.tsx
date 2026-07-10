@@ -39,15 +39,23 @@ function FrameItem({
 }
 
 export default function ReservedFrames() {
+  const trackRef = useRef<HTMLDivElement | null>(null);
   const centerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // Start the deck centered on the hero frame — same feel on every screen size.
-    centerRef.current?.scrollIntoView({
-      behavior: 'auto',
-      inline: 'center',
-      block: 'nearest',
-    });
+    // Center the deck on the hero frame — same feel on every screen size.
+    // Deliberately NOT using scrollIntoView here: with block: 'nearest', it
+    // still scrolls the page vertically to bring this section into view if
+    // it isn't already on-screen (which it never is on initial load, since
+    // this section sits well below the hero) — that's what was causing the
+    // page to open scrolled down to the photos instead of the hero. Setting
+    // scrollLeft directly only ever affects this track's own horizontal
+    // scroll, never the page's vertical position.
+    const track = trackRef.current;
+    const center = centerRef.current;
+    if (!track || !center) return;
+
+    track.scrollLeft = center.offsetLeft - track.clientWidth / 2 + center.clientWidth / 2;
   }, []);
 
   return (
@@ -70,7 +78,7 @@ export default function ReservedFrames() {
 
       <div className="frames-wrap">
         <div className="frames-glow" aria-hidden="true" />
-        <div className="frames-track">
+        <div className="frames-track" ref={trackRef}>
           {RESERVED_FRAMES.map((frame, index) => (
             <FrameItem
               key={frame.image}
