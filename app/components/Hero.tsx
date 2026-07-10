@@ -20,6 +20,26 @@ function getPKTGreeting(): string {
   return 'The world is asleep, just for you,';
 }
 
+function getPKTDateParts(date: Date) {
+  const options: Intl.DateTimeFormatOptions = {
+    timeZone: 'Asia/Karachi',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour12: false,
+  };
+  const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
+  const get = (type: string) => parseInt(parts.find((p) => p.type === type)!.value, 10);
+  return { year: get('year'), month: get('month'), day: get('day') };
+}
+
+// Pakistan Standard Time is a fixed UTC+5 offset year-round (no DST), so
+// "March 31, 00:00 PKT" can be computed directly as a UTC timestamp: take
+// midnight UTC on that date and subtract 5 hours.
+function pktMidnightAsUTCms(year: number, month: number, day: number): number {
+  return Date.UTC(year, month - 1, day, 0, 0, 0) - 5 * 60 * 60 * 1000;
+}
+
 function formatCountdown(diff: number) {
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
@@ -64,8 +84,9 @@ export default function Hero() {
 
   useEffect(() => {
     const tick = () => {
-      const now = new Date();
-      const isBirthday = now.getMonth() === 2 && now.getDate() === 31;
+      const now = Date.now();
+      const pkt = getPKTDateParts(new Date(now));
+      const isBirthday = pkt.month === 3 && pkt.day === 31;
 
       if (isBirthday) {
         setCountdown('Happy Birthday my love!');
@@ -73,9 +94,9 @@ export default function Hero() {
         return;
       }
 
-      const target = new Date(`March 31, ${now.getFullYear()} 00:00:00`);
-      if (now > target) target.setFullYear(target.getFullYear() + 1);
-      setCountdown(formatCountdown(target.getTime() - now.getTime()));
+      let target = pktMidnightAsUTCms(pkt.year, 3, 31);
+      if (now > target) target = pktMidnightAsUTCms(pkt.year + 1, 3, 31);
+      setCountdown(formatCountdown(target - now));
       setSubtext('Until the 31st returns.');
     };
 

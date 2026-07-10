@@ -93,7 +93,7 @@ export default function AmbientParticles() {
     }
 
     let frame = 0;
-    const tick = () => {
+    const drawFrame = () => {
       frame += 1;
       ctx.clearRect(0, 0, width, height);
 
@@ -112,24 +112,59 @@ export default function AmbientParticles() {
           (Math.sin(frame * p.twinkleSpeed + p.twinklePhase) + 1) / 2;
         const opacity = p.baseOpacity * (0.6 + 0.4 * twinkle);
 
+        // Soft glow via a larger, low-opacity circle drawn underneath the
+        // core dot, instead of ctx.shadowBlur. shadowBlur forces a blur
+        // filter pass on every single fill, which is one of the more
+        // expensive things Canvas2D can do at 60fps — two plain fills per
+        // particle is far cheaper at this particle count, with a near
+        // identical soft look.
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius * 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(207, 170, 110, ${opacity * 0.35})`;
+        ctx.fill();
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(245, 245, 245, ${opacity})`;
-        ctx.shadowBlur = p.radius * 2;
-        ctx.shadowColor = 'rgba(207, 170, 110, 0.4)';
         ctx.fill();
-        ctx.shadowBlur = 0;
       });
-
-      rafRef.current = requestAnimationFrame(tick);
     };
 
-    rafRef.current = requestAnimationFrame(tick);
+    // Run the loop only while the tab is actually visible. Most browsers
+    // throttle rAF in background tabs anyway, but explicitly stopping (rather
+    // than relying on that throttling) means zero canvas work happens at all
+    // while this page isn't the one being looked at — meaningful over a long
+    // session on a phone, since this canvas covers the whole viewport on
+    // every route in the site.
+    const startLoop = () => {
+      if (rafRef.current !== null) return;
+      const loopFrame = () => {
+        drawFrame();
+        rafRef.current = requestAnimationFrame(loopFrame);
+      };
+      rafRef.current = requestAnimationFrame(loopFrame);
+    };
+
+    const stopLoop = () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+
+    if (!document.hidden) startLoop();
+
+    const handleVisibility = () => {
+      if (document.hidden) stopLoop();
+      else startLoop();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
 
     return () => {
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', onResize);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      stopLoop();
     };
   }, []);
 

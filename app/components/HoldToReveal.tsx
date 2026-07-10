@@ -39,6 +39,23 @@ export default function HoldToReveal() {
     }
   };
 
+  // Keyboard equivalent of press-and-hold: holding Enter or Space fires the
+  // same progress loop as mousedown/touchstart. Browsers auto-repeat keydown
+  // while a key is held, so we ignore repeats once already holding — the
+  // corresponding keyup (which only fires once, on release) calls end().
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    e.preventDefault();
+    if (holdingRef.current) return;
+    holdingRef.current = true;
+    rafRef.current = requestAnimationFrame(loop);
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    end();
+  };
+
   // Global mouseup / touchend so releasing outside button still stops
   useEffect(() => {
     window.addEventListener('mouseup', end);
@@ -58,6 +75,9 @@ export default function HoldToReveal() {
           className="serif"
           onMouseDown={start}
           onTouchStart={start}
+          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
+          onBlur={end}
         >
           press and hold
         </button>

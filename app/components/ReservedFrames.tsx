@@ -2,20 +2,16 @@
 
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
+import { RESERVED_FRAMES } from '../lib/data/reservedFrames';
 
-const TOTAL_IMAGES = 15;
-
-const FRAMES = Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
-  image: `/images/${i + 1}.jpeg`,
-}));
-
-const CENTER_INDEX = Math.floor((FRAMES.length - 1) / 2);
+const CENTER_INDEX = Math.floor((RESERVED_FRAMES.length - 1) / 2);
 
 function FrameItem({
   image,
+  alt,
   index,
   innerRef,
-}: (typeof FRAMES)[0] & {
+}: (typeof RESERVED_FRAMES)[0] & {
   index: number;
   innerRef: (el: HTMLDivElement | null) => void;
 }) {
@@ -31,7 +27,7 @@ function FrameItem({
       <div className="frame-card">
         <Image
           src={image}
-          alt=""
+          alt={alt}
           fill
           sizes="(max-width: 420px) 32vw, (max-width: 768px) 26vw, 220px"
           quality={70}
@@ -75,7 +71,7 @@ export default function ReservedFrames() {
       <div className="frames-wrap">
         <div className="frames-glow" aria-hidden="true" />
         <div className="frames-track">
-          {FRAMES.map((frame, index) => (
+          {RESERVED_FRAMES.map((frame, index) => (
             <FrameItem
               key={frame.image}
               index={index}
