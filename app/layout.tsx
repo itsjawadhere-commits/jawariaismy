@@ -4,9 +4,9 @@ import { cormorantGaramond, spaceMono, notoNastaliqUrdu } from './fonts';
 import CustomCursor from './components/CustomCursor';
 import ScrollThread from './components/ScrollThread';
 import Nav from './components/Nav';
-import SecondaryNav from './components/SecondaryNav';
 import BackToTop from './components/BackToTop';
 import AmbientParticles from './components/AmbientParticles';
+import SiteFireworks from './components/SiteFireworks';
 import BackgroundMusic from './components/BackgroundMusic';
 
 export const metadata: Metadata = {
@@ -43,8 +43,8 @@ export default function RootLayout({
       <body>
         <CustomCursor />
         <Nav />
-        <SecondaryNav />
         <AmbientParticles />
+        <SiteFireworks />
         <div className="grain" />
         <ScrollThread />
         {children}

@@ -11,7 +11,7 @@ export default function ScrollThread() {
       const scrolled = document.body.scrollTop || document.documentElement.scrollTop;
       const total =
         document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      el.style.height = (scrolled / total) * 100 + '%';
+      el.style.height = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
