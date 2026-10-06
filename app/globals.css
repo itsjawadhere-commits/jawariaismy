@@ -1987,3 +1987,48 @@ h1.name {
     display: none;
   }
 }
+
+/* ===================== ANNIVERSARY ===================== */
+.anniv-letter {
+  min-height: auto;
+  padding: 4vh 8% 12vh;
+}
+.anniv-heading {
+  font-size: clamp(1.7rem, 4.5vw, 2.8rem);
+  font-weight: 300;
+  color: var(--accent-gold);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 30px rgba(3, 3, 3, 0.95), 0 0 12px rgba(3, 3, 3, 0.8);
+}
+/* soft dark glow behind the paragraphs so fireworks never fight the text */
+.anniv-body {
+  max-width: 640px;
+  width: 100%;
+  text-align: left;
+  padding: 2rem 1.5rem;
+  border-radius: 24px;
+  background: radial-gradient(ellipse at center, rgba(3, 3, 3, 0.78) 0%, rgba(3, 3, 3, 0.55) 60%, rgba(3, 3, 3, 0) 100%);
+}
+.anniv-body p {
+  font-size: clamp(1.1rem, 2.6vw, 1.35rem);
+  line-height: 1.8;
+  margin-bottom: 1.4rem;
+  color: var(--text-color);
+  text-shadow: 0 0 14px rgba(3, 3, 3, 0.95);
+}
+.anniv-body p:last-child {
+  margin-bottom: 0;
+}
+/* tighter hero on the anniversary: name, message and subtext sit together */
+.anniv-hero-section h1.name {
+  margin-bottom: 0.25rem;
+}
+#countdown.anniv-hero {
+  font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+  margin: 0.5rem 0 0.75rem;
+  line-height: 1.2;
+}
+.anniv-hero-section .greeting-text {
+  margin-bottom: 0.5rem;
+}

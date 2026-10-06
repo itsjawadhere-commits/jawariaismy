@@ -2,6 +2,7 @@ import MainContent from './components/MainContent';
 import RevealObserver from './components/RevealObserver';
 import ChapterDivider from './components/ChapterDivider';
 import Hero from './components/Hero';
+import AnniversaryLetter from './components/AnniversaryLetter';
 import DaysSince from './components/DaysSince';
 import Timeline from './components/Timeline';
 import MoonSection from './components/MoonSection';
@@ -26,6 +27,9 @@ export default function Home() {
 
       {/* HERO — stands alone, before the chapters begin */}
       <Hero />
+
+      {/* ANNIVERSARY LETTER — right under the hero, from Oct 6 (PKT) onward */}
+      <AnniversaryLetter />
 
       {/* ============ CHAPTER I — THE BEGINNING ============ */}
       <ChapterDivider

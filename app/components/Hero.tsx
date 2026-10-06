@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { isAnniversaryDay } from '../lib/anniversary';
 
 const SCRAMBLE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
 const NAME = 'Jawaria';
@@ -66,6 +67,7 @@ export default function Hero() {
   const [countdown, setCountdown] = useState('00d 00h 00m 00s');
   const [subtext, setSubtext] = useState('Until the 31st returns.');
   const [whisper, setWhisper] = useState<string | null>(null);
+  const [anniv, setAnniv] = useState(false);
   const scrambleRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -86,6 +88,13 @@ export default function Hero() {
     const tick = () => {
       const now = Date.now();
       const pkt = getPKTDateParts(new Date(now));
+      if (isAnniversaryDay(new Date(now))) {
+        setAnniv(true);
+        setCountdown('Happy Anniversary, my love.');
+        setSubtext('365 days of loving you.');
+        return;
+      }
+      setAnniv(false);
       const isBirthday = pkt.month === 3 && pkt.day === 31;
 
       if (isBirthday) {
@@ -126,9 +135,9 @@ export default function Hero() {
   };
 
   return (
-    <section className="section-padding">
+    <section className={`section-padding${anniv ? ' anniv-hero-section' : ''}`}>
       <p id="time-greeting" className="mono greeting-text">
-        {greeting}
+        {anniv ? 'today the whole sky is celebrating,' : greeting}
       </p>
       <h1
         className="name serif"
@@ -137,12 +146,16 @@ export default function Hero() {
       >
         {displayName}
       </h1>
-      <div id="countdown" className="mono">
+      <div id="countdown" className={anniv ? 'serif anniv-hero' : 'mono'}>
         {countdown}
       </div>
       <p className="mono">{subtext}</p>
-      {whisper && (
-        <p className="mono return-whisper">{whisper}</p>
+      {anniv ? (
+        <p className="mono return-whisper">
+          and somehow, i still want every tomorrow with you.
+        </p>
+      ) : (
+        whisper && <p className="mono return-whisper">{whisper}</p>
       )}
     </section>
   );

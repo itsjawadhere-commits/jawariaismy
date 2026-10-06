@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { isAnniversaryDay } from '../lib/anniversary';
 
 interface Spark {
   x: number;
@@ -37,9 +38,14 @@ export default function SiteFireworks() {
     if (reduced) return; // no motion at all for people who ask for less of it
 
     const isMobile = window.matchMedia('(max-width: 700px)').matches;
-    const MAX_SPARKS = isMobile ? 260 : 600;
+    const MAX_SPARKS = isMobile ? 520 : 1200;
     const SPARKS_PER_BURST = isMobile ? 34 : 60;
     const LAUNCH_EVERY = isMobile ? [1800, 3200] : [900, 2200];
+
+    // Anniversary (Oct 6, Pakistan time): more launches, bigger bursts. Re-checked
+    // every 30s so it calms down on its own after midnight.
+    let party = isAnniversaryDay();
+    const partyTimer = setInterval(() => (party = isAnniversaryDay()), 30_000);
 
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -82,10 +88,10 @@ export default function SiteFireworks() {
 
     const burst = (x: number, y: number, hue: number) => {
       const room = MAX_SPARKS - sparks.length;
-      const n = Math.min(SPARKS_PER_BURST, room);
+      const n = Math.min(Math.round(SPARKS_PER_BURST * (party ? 1.8 : 1)), room);
       for (let i = 0; i < n; i++) {
         const angle = (Math.PI * 2 * i) / n + rand(-0.08, 0.08);
-        const speed = rand(1.2, 3.6);
+        const speed = rand(1.2, 3.6) * (party ? 1.6 : 1);
         sparks.push({
           x,
           y,
@@ -110,7 +116,7 @@ export default function SiteFireworks() {
 
       if (now >= nextLaunch) {
         launch();
-        nextLaunch = now + rand(LAUNCH_EVERY[0], LAUNCH_EVERY[1]);
+        nextLaunch = now + rand(LAUNCH_EVERY[0], LAUNCH_EVERY[1]) * (party ? 0.4 : 1);
       }
 
       for (let i = rockets.length - 1; i >= 0; i--) {
@@ -163,6 +169,7 @@ export default function SiteFireworks() {
 
     return () => {
       clearTimeout(resizeTimer);
+      clearInterval(partyTimer);
       window.removeEventListener('resize', onResize);
       document.removeEventListener('visibilitychange', onVisibility);
       stop();
